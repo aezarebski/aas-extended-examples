@@ -1,0 +1,11 @@
+* Applied Analytic Statistics
+
+** Jupyter Lab
+
+The =shell.nix= file describes a package for running the notebooks in this
+repository. To activate the notebook server run the following command.
+
+#+BEGIN_SRC sh
+nix-shell --command "jupyter lab" 
+#+END_SRC
+
