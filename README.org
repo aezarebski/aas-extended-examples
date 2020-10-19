@@ -1,5 +1,8 @@
 * Applied Analytic Statistics
 
+The notebooks in this repository are being written for use in the course Applied
+Analytic Statistics.
+
 ** Jupyter Lab
 
 The =shell.nix= file describes a package for running the notebooks in this
@@ -9,3 +12,5 @@ repository. To activate the notebook server run the following command.
 nix-shell --command "jupyter lab" 
 #+END_SRC
 
+To keep the notebooks in a neat state, please restart the kernel and run all
+cells prior to commiting any changes.
