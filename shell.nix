@@ -7,7 +7,7 @@
 let
   jupyter = import (builtins.fetchGit {
     url = https://github.com/tweag/jupyterWith;
-    rev = "10d64ee254050de69d0dc51c9c39fdadf1398c38";
+    rev = "";
   }) {};
 
   ipython = jupyter.kernels.iPythonWith {
