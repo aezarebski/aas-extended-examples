@@ -1,7 +1,11 @@
 * Applied Analytic Statistics
 
 The notebooks in this repository are being written for use in the course Applied
-Analytic Statistics.
+Analytic Statistics. Each of the directories, =example-<n>= contains two
+notesbooks: =example-<n>-questions.ipynb= and =example-<n>-answers.ipynb=. The
+/questions/ notebook contains the questions for the practical sessions and the
+/answers/ one has partial answers. Please give the questions a solid attempt
+before looking at the answers.
 
 ** Jupyter Lab
 
