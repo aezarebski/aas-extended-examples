@@ -1,0 +1,38 @@
+* Example 2
+
+** Learning objectives
+
+- To understand the assumptions of linear regression and be able to understand
+  when it is /not/ appropriate.
+  + The matter of how to resolve the data not conforming to the assumptions is
+    left as a subsequent problem.
+  + There will be examples of data sets where it both is and is not appropriate
+    to use simple linear regression.
+- How to interpret the results of simple linear regression when it /is/
+  appropriate to use.
+
+** Outline
+
+*** Review how to compute the estimate for a simple linear regression
+
+- *15 minutes + 10 minutes, 1 questions*
+- Get them to write a function to compute the estimate
+  
+*** Review the assumptions of a simple linear regression
+
+- *15 minutes + 10 minutes, 1 questions*
+- Review the basic assumptions of linear regression and why these are important
+- Get them to visualise the data and model fit
+
+*** Review how to summarise the results of a simple linear regression
+
+- *15 minutes + 10 minutes, 2 questions*
+- Get them to write a function to compute the correlation and residual standard
+  error
+  
+*** Examples of data sets which need to be checked for violation of assumptions
+
+- *25 minutes + 10 minutes, 8 questions*
+- Get them to work though data sets working out in what ways they violate the
+  assumptions of linear regression and to estimate the parameters for the couple
+  of examples where they follow the assumptions.
