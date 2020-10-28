@@ -15,24 +15,45 @@
 
 *** Review how to compute the estimate for a simple linear regression
 
-- *15 minutes + 10 minutes, 1 questions*
+- *10 minutes + 5 minutes, 1 questions*
 - Get them to write a function to compute the estimate
+- This is pretty much just writing a wrapper around the =statsmodels= function
+  for least squares regression.
   
 *** Review the assumptions of a simple linear regression
 
-- *15 minutes + 10 minutes, 1 questions*
-- Review the basic assumptions of linear regression and why these are important
-- Get them to visualise the data and model fit
+- *20 minutes + 15 minutes, 2 questions*
+- Review the basic assumptions of linear regression and why these are important,
+  noting that only some of them can be observed from the data.
+  + linearity
+  + constant variance
+  + normality
+  + independence of errors
+  + no error in the measurement of the covariate
+  + the covariate is not invariant
+- Get them to visualise the data and model fit 
+
+*** *BREAK*
 
 *** Review how to summarise the results of a simple linear regression
 
 - *15 minutes + 10 minutes, 2 questions*
-- Get them to write a function to compute the correlation and residual standard
-  error
+- Get them to write a function to compute model summary statistics which are
+  useful for assessing model fit.
+  + correlation coefficient
+  + residual standard error
+  + coefficient of determination
+- Get them to understand the different between a significant effect and a
+  substantial effect.
   
 *** Examples of data sets which need to be checked for violation of assumptions
 
-- *25 minutes + 10 minutes, 8 questions*
+- *25 minutes + 10 minutes, 6 questions*
 - Get them to work though data sets working out in what ways they violate the
   assumptions of linear regression and to estimate the parameters for the couple
   of examples where they follow the assumptions.
+
+*** Example of linear regression with multiple covariates
+
+- Diagnose an example where there is very strong correlation between two of the
+  covariates.
