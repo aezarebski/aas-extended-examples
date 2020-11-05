@@ -1,3 +1,5 @@
+[[./.resources/mittens.jpg]]
+
 * Applied Analytic Statistics
 
 The notebooks in this repository are being written for use in the course Applied
