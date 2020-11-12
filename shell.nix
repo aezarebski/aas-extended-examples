@@ -14,6 +14,7 @@ let
     name = "python";
     packages = p: with p; [ numpy
                             altair
+                            statsmodels
                             pandas
                             matplotlib ];
   };
