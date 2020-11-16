@@ -10,6 +10,11 @@ let
     rev = "";
   }) {};
 
+  irkernel = jupyter.kernels.iRWith {
+    name = "r";
+    packages = p: with p; [ p.ggplot2 ];
+  };
+
   ipython = jupyter.kernels.iPythonWith {
     name = "python";
     packages = p: with p; [ numpy
@@ -20,7 +25,8 @@ let
   };
 
   jupyterEnvironment = jupyter.jupyterlabWith {
-    kernels = [ ipython ];
+    kernels = [ ipython
+                irkernel ];
   };
 in
   jupyterEnvironment.env
