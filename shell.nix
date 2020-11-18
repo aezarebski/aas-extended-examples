@@ -12,7 +12,10 @@ let
 
   irkernel = jupyter.kernels.iRWith {
     name = "r";
-    packages = p: with p; [ p.ggplot2 ];
+    packages = p: with p; [ p.ggplot2
+                            p.nnet
+                            p.MASS
+                            p.effects];
   };
 
   ipython = jupyter.kernels.iPythonWith {
