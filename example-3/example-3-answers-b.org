@@ -5,6 +5,12 @@ range of statistical packages available. Much of the code should seem familiar
 after working with =pandas= and =statsmodels= (the main exception being that
 assignment is declared with an arrow: =<-=)
 
+*WARNING!* Some of the material in this document goes beyond what is taught in
+AAS but can be understood based on the material presented in Chapter 14 of Fox.
+
+*WARNING!* Getting C++ code to work properly from the R kernel in a Jupyter
+ notebook is challenging so this analysis is given as a static file instead.
+
 * Packages
 
 #+begin_src R :tangle example-3-answers-b.R
@@ -13,7 +19,19 @@ library(MASS)
 library(effects)
 #+end_src
 
+- the =nnet= package provides the function =multinom= for multinomial logistic
+  regression,
+- the =MASS= package provides =polr= for proportional odds logistic regression
+  which can be used for ordinal logistic regression as described in Chapter 14
+  of Fox,
+- the =effects= package provides functions for interrogating the estimated
+  parameters of a GLM.
+
 * Reading in the data
+
+To make sure that R interprets the survey data correctly we need to coerce some
+of the variables to Booleans and Enumerations (factors) as they are represented
+as integers in the CSV.
 
 #+begin_src R :tangle example-3-answers-b.R
 data_df <- read.csv("cat-opinions.csv")
@@ -26,7 +44,15 @@ data_df$support_lockdown <- factor(data_df$support_lockdown,
 
 * Logistic regression
 
+This is the same as the material already covered in the notebook,
+=example-3-X.ipynb=.
+
 ** Fitting the model
+
+The =glm= function does not require an additional package to be loaded. The
+function call is pretty much the same as with =statsmodels= in python. Note that
+we need to specify that the data comes from a binomial distribution because
+otherwise it will assume it comes from a Guassian distribution.
 
 #+begin_src R :tangle example-3-answers-b.R
 binary_df <- data_df[data_df$will_vaccinate != 0, ]
@@ -38,6 +64,9 @@ binary_logistic <- glm(will_vaccinate ~ work_from_home + whisker_length + trust_
 #+end_src
 
 ** Interogating the fit
+
+The =summary= function plays a similar role to the =summary= method of
+=statsmodels=.
 
 #+begin_src R :tangle example-3-answers-b.R
 print(summary(binary_logistic))
@@ -72,6 +101,8 @@ AIC: 404.95
 Number of Fisher Scoring iterations: 6
 #+end_src
 
+_See the comments at the top of this document about the effects display_
+
 #+begin_src R :tangle example-3-answers-b.R
 png("figs/binary-logistic-regression-fig-1.png")
 plot(allEffects(binary_logistic),
@@ -86,6 +117,9 @@ dev.off()
 * Multinomial logistic regression
 
 ** Fitting the model
+
+The =nnet= package provides the =multinom= function which otherwise has behaves
+similar to the analagous function from =statsmodels=.
 
 #+begin_src R :tangle example-3-answers-b.R
 multi_logistic <- multinom(will_vaccinate ~ work_from_home + whisker_length + trust_in_government + fifth_generation,
@@ -123,6 +157,7 @@ Residual Deviance: 1078.424
 AIC: 1098.424 
 #+end_src
 
+_See the comments at the top of this document about the effects display_
 
 #+begin_src R :tangle example-3-answers-b.R
 png("figs/multinomial-logistic-regression-fig-1.png")
@@ -139,12 +174,18 @@ dev.off()
 
 ** Fitting the model
 
+The =MASS= package provides =polr= for proportional odds logistic regression
+which performs ordinal logisitic regression.
+
 #+begin_src R :tangle example-3-answers-b.R
 prop_odds_logistic <- polr(support_lockdown ~ work_from_home + whisker_length + trust_in_government + fifth_generation,
                            data = data_df)
 #+end_src
 
 ** Interogating the fit
+
+In ordinal logisitic regression you need to estimate the intercept values as
+well as the coefficients of the model.
 
 #+begin_src R :tangle example-3-answers-b.R
 print(summary(prop_odds_logistic))
@@ -183,6 +224,7 @@ trust_in_government   0.07503095  0.1162630
 fifth_generationTRUE -1.30958906 -0.4486184
 #+end_src
 
+_See the comments at the top of this document about the effects display_
 
 #+begin_src R :tangle example-3-answers-b.R
 png("figs/ordinal-logistic-regression-fig-1.png")
