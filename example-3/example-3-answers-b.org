@@ -1,0 +1,250 @@
+#+title: Logistic regression with Professor Mittens
+
+We will perform the last part of this analysis in R to make use of the wider
+range of statistical packages available. Much of the code should seem familiar
+after working with =pandas= and =statsmodels= (the main exception being that
+assignment is declared with an arrow: =<-=)
+
+*WARNING!* Some of the material in this document goes beyond what is taught in
+AAS but can be understood based on the material presented in Chapter 14 of Fox.
+
+*WARNING!* Getting C++ code to work properly from the R kernel in a Jupyter
+ notebook is challenging so this analysis is given as a static file instead.
+
+** Effect displays
+
+The interpretation of the coefficients of GLM models (of which logistic
+regression is a special case) is difficult. An /effect display/ is a figure that
+assists in interpreting the fit of the model. In the case of logistic
+regression, it shows the probability of memebership to different response values
+in response to changes in one of the predictors while keeping the remaining ones
+at values that are in some way "typical". For the precise mechanics of how these
+figures are generated, you are recommended to read the [[https://cran.r-project.org/web/packages/effects/index.html][documentation for the
+=effects= package]].
+
+* Packages
+
+#+begin_src R :tangle example-3-answers-b.R
+library(nnet)
+library(MASS)
+library(effects)
+#+end_src
+
+- the =nnet= package provides the function =multinom= for multinomial logistic
+  regression,
+- the =MASS= package provides =polr= for proportional odds logistic regression
+  which can be used for ordinal logistic regression as described in Chapter 14
+  of Fox,
+- the =effects= package provides functions for interrogating the estimated
+  parameters of a GLM.
+
+* Reading in the data
+
+To make sure that R interprets the survey data correctly we need to coerce some
+of the variables to Booleans and Enumerations (factors) as they are represented
+as integers in the CSV.
+
+#+begin_src R :tangle example-3-answers-b.R
+data_df <- read.csv("cat-opinions.csv")
+data_df$work_from_home <- as.logical(data_df$work_from_home)
+data_df$fifth_generation <- as.logical(data_df$fifth_generation)
+data_df$support_lockdown <- factor(data_df$support_lockdown,
+                                   levels = 0:4,
+                                   ordered = TRUE)
+#+end_src
+
+* Logistic regression
+
+This is the same as the material already covered in the notebook,
+=example-3-X.ipynb=.
+
+** Fitting the model
+
+The =glm= function does not require an additional package to be loaded. The
+function call is pretty much the same as with =statsmodels= in python. Note that
+we need to specify that the data comes from a binomial distribution because
+otherwise it will assume it comes from a Guassian distribution.
+
+#+begin_src R :tangle example-3-answers-b.R
+binary_df <- data_df[data_df$will_vaccinate != 0, ]
+binary_df$will_vaccinate <- 0.5 * (binary_df$will_vaccinate + 1)
+binary_logistic <- glm(will_vaccinate ~ work_from_home + whisker_length + trust_in_government + fifth_generation,
+  data = binary_df,
+  family = binomial
+)
+#+end_src
+
+** Interogating the fit
+
+The =summary= function plays a similar role to the =summary= method of
+=statsmodels=.
+
+#+begin_src R :tangle example-3-answers-b.R
+print(summary(binary_logistic))
+#+end_src
+
+#+begin_src 
+Call:
+glm(formula = will_vaccinate ~ work_from_home + whisker_length + 
+    trust_in_government + fifth_generation, family = binomial, 
+    data = binary_df)
+
+Deviance Residuals: 
+    Min       1Q   Median       3Q      Max  
+-2.8963   0.1751   0.2566   0.3788   1.6959  
+
+Coefficients:
+                     Estimate Std. Error z value Pr(>|z|)    
+(Intercept)          -6.29889    2.69106  -2.341  0.01925 *  
+work_from_homeTRUE    0.90141    0.30659   2.940  0.00328 ** 
+whisker_length        0.22993    0.28850   0.797  0.42546    
+trust_in_government   0.11397    0.02181   5.226 1.73e-07 ***
+fifth_generationTRUE -2.76033    0.30006  -9.199  < 2e-16 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 535.97  on 878  degrees of freedom
+Residual deviance: 394.95  on 874  degrees of freedom
+AIC: 404.95
+
+Number of Fisher Scoring iterations: 6
+#+end_src
+
+_See the comments at the top of this document about the effects display_
+
+#+begin_src R :tangle example-3-answers-b.R
+png("figs/binary-logistic-regression-fig-1.png")
+plot(allEffects(binary_logistic),
+     axes=list(grid=TRUE, x=list(rug=FALSE)),
+     lattice=list(key.args=list(columns=1)),
+     lines=list(multiline=TRUE))
+dev.off()
+#+end_src
+
+[[./figs/binary-logistic-regression-fig-1.png]]
+
+* Multinomial logistic regression
+
+** Fitting the model
+
+The =nnet= package provides the =multinom= function which otherwise has behaves
+similar to the analagous function from =statsmodels=.
+
+#+begin_src R :tangle example-3-answers-b.R
+multi_logistic <- multinom(will_vaccinate ~ work_from_home + whisker_length + trust_in_government + fifth_generation,
+                           data = data_df)
+#+end_src
+
+** Interogating the fit
+
+#+begin_src R :tangle example-3-answers-b.R
+print(summary(multi_logistic))
+#+end_src
+
+#+begin_src 
+Call:
+multinom(formula = will_vaccinate ~ work_from_home + whisker_length + 
+    trust_in_government + fifth_generation, data = data_df)
+
+Coefficients:
+  (Intercept) work_from_homeTRUE whisker_length trust_in_government
+0 -0.07173515          0.8225644      0.1177670        -0.004014567
+1 -6.10690029          0.8583690      0.2321892         0.110624075
+  fifth_generationTRUE
+0            -1.750372
+1            -2.738628
+
+Std. Errors:
+  (Intercept) work_from_homeTRUE whisker_length trust_in_government
+0    3.047088          0.3291917      0.3275097          0.02452738
+1    2.661137          0.2950328      0.2853089          0.02103824
+  fifth_generationTRUE
+0            0.3494653
+1            0.2955160
+
+Residual Deviance: 1078.424 
+AIC: 1098.424 
+#+end_src
+
+_See the comments at the top of this document about the effects display_
+
+#+begin_src R :tangle example-3-answers-b.R
+png("figs/multinomial-logistic-regression-fig-1.png")
+plot(allEffects(multi_logistic),
+     axes=list(grid=TRUE, x=list(rug=FALSE)),
+     lattice=list(key.args=list(columns=1)),
+     lines=list(multiline=TRUE))
+dev.off()
+#+end_src
+
+[[./figs/multinomial-logistic-regression-fig-1.png]]
+
+* Ordinal logistic regression: proportional odds
+
+** Fitting the model
+
+The =MASS= package provides =polr= for proportional odds logistic regression
+which performs ordinal logisitic regression.
+
+#+begin_src R :tangle example-3-answers-b.R
+prop_odds_logistic <- polr(support_lockdown ~ work_from_home + whisker_length + trust_in_government + fifth_generation,
+                           data = data_df)
+#+end_src
+
+** Interogating the fit
+
+In ordinal logisitic regression you need to estimate the intercept values as
+well as the coefficients of the model.
+
+#+begin_src R :tangle example-3-answers-b.R
+print(summary(prop_odds_logistic))
+print(confint(prop_odds_logistic))
+#+end_src
+
+#+begin_src 
+Call:
+polr(formula = support_lockdown ~ work_from_home + whisker_length + 
+    trust_in_government + fifth_generation, data = data_df)
+
+Coefficients:
+                        Value Std. Error t value
+work_from_homeTRUE    0.36137     0.1468  2.4616
+whisker_length       -0.06661     0.1483 -0.4493
+trust_in_government   0.09539     0.0105  9.0813
+fifth_generationTRUE -0.87910     0.2192 -4.0110
+
+Intercepts:
+    Value   Std. Error t value
+0|1  4.1613  1.3543     3.0728
+1|2  4.3830  1.3547     3.2353
+2|3  4.4860  1.3550     3.3106
+3|4  4.7007  1.3558     3.4671
+
+Residual Deviance: 1706.673 
+AIC: 1722.673 
+Waiting for profiling to be done...
+
+Re-fitting to get Hessian
+
+                           2.5 %     97.5 %
+work_from_homeTRUE    0.07548712  0.6513969
+whisker_length       -0.35725403  0.2244639
+trust_in_government   0.07503095  0.1162630
+fifth_generationTRUE -1.30958906 -0.4486184
+#+end_src
+
+_See the comments at the top of this document about the effects display_
+
+#+begin_src R :tangle example-3-answers-b.R
+png("figs/ordinal-logistic-regression-fig-1.png")
+plot(predictorEffects(prop_odds_logistic,
+                      ~ whisker_length + trust_in_government),
+     axes=list(grid=TRUE, x=list(rug=FALSE)),
+     lattice=list(key.args=list(columns=1)),
+     lines=list(multiline=TRUE))
+dev.off()
+#+end_src
+
+[[./figs/ordinal-logistic-regression-fig-1.png]]

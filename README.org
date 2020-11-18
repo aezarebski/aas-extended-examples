@@ -11,18 +11,6 @@ before looking at the answers. For some examples there is a
 =example-<n>-data.ipynb= which contains code to simulate data for those examples
 which make use of simulated data.
 
-** Jupyter Lab
-
-The =shell.nix= file describes a package for running the notebooks in this
-repository. To activate the notebook server run the following command.
-
-#+BEGIN_SRC sh
-nix-shell --command "jupyter lab" 
-#+END_SRC
-
-To keep the notebooks in a neat state, please restart the kernel and run all
-cells prior to commiting any changes.
-
 ** Useful links
 
 In addition to the [[https://socialsciences.mcmaster.ca/jfox/Books/Applied-Regression-3E/index.html][course text book]] the following links may be useful to help
@@ -32,3 +20,18 @@ you complete the example notebooks.
   recommend to most people new to programming.
 - The [[https://altair-viz.github.io/gallery/index.html][Example Gallery]] for Altair is very useful as a starting point for custom
   visualisations.
+
+** Jupyter Lab
+
+To keep the notebooks in a neat state, please restart the kernel and run all
+cells prior to commiting any changes.
+
+The =shell.nix= file describes a package for running the notebooks in this
+repository. To activate the notebook server run the following command.
+
+#+BEGIN_SRC sh
+nix-shell --command "jupyter lab"
+#+END_SRC
+
+The =shell.nix= file is based on the instructions provided by [[https://github.com/tweag/jupyterWith#jupyterwith][jupyterWith
+repository]] from Tweag.
