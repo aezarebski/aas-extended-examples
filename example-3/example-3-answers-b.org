@@ -1,48 +1,102 @@
+#+title: Logistic regression with Professor Mittens
+
+We will perform the last part of this analysis in R to make use of the wider
+range of statistical packages available. Much of the code should seem familiar
+after working with =pandas= and =statsmodels= (the main exception being that
+assignment is declared with an arrow: =<-=)
+
+* Packages
+
+#+begin_src R :tangle example-3-answers-b.R
 library(nnet)
 library(MASS)
 library(effects)
+#+end_src
 
+* Reading in the data
+
+#+begin_src R :tangle example-3-answers-b.R
 data_df <- read.csv("cat-opinions.csv")
 data_df$work_from_home <- as.logical(data_df$work_from_home)
 data_df$fifth_generation <- as.logical(data_df$fifth_generation)
 data_df$support_lockdown <- factor(data_df$support_lockdown,
                                    levels = 0:4,
                                    ordered = TRUE)
+#+end_src
 
+* Logistic regression
+
+** Fitting the model
+
+#+begin_src R :tangle example-3-answers-b.R
 binary_df <- data_df[data_df$will_vaccinate != 0, ]
 binary_df$will_vaccinate <- 0.5 * (binary_df$will_vaccinate + 1)
 binary_logistic <- glm(will_vaccinate ~ work_from_home + whisker_length + trust_in_government + fifth_generation,
   data = binary_df,
   family = binomial
 )
+#+end_src
 
+** Interogating the fit
+
+#+begin_src R :tangle example-3-answers-b.R
 print(summary(binary_logistic))
+#+end_src
 
+#+begin_src R :tangle example-3-answers-b.R
 png("figs/binary-logistic-regression-fig-1.png")
 plot(allEffects(binary_logistic),
      axes=list(grid=TRUE, x=list(rug=FALSE)),
      lattice=list(key.args=list(columns=1)),
      lines=list(multiline=TRUE))
 dev.off()
+#+end_src
 
+[[./figs/binary-logistic-regression-fig-1.png]]
+
+* Multinomial logistic regression
+
+** Fitting the model
+
+#+begin_src R :tangle example-3-answers-b.R
 multi_logistic <- multinom(will_vaccinate ~ work_from_home + whisker_length + trust_in_government + fifth_generation,
                            data = data_df)
+#+end_src
 
+** Interogating the fit
+
+#+begin_src R :tangle example-3-answers-b.R
 print(summary(multi_logistic))
+#+end_src
 
+#+begin_src R :tangle example-3-answers-b.R
 png("figs/multinomial-logistic-regression-fig-1.png")
 plot(allEffects(multi_logistic),
      axes=list(grid=TRUE, x=list(rug=FALSE)),
      lattice=list(key.args=list(columns=1)),
      lines=list(multiline=TRUE))
 dev.off()
+#+end_src
 
+[[./figs/multinomial-logistic-regression-fig-1.png]]
+
+* Ordinal logistic regression: proportional odds
+
+** Fitting the model
+
+#+begin_src R :tangle example-3-answers-b.R
 prop_odds_logistic <- polr(support_lockdown ~ work_from_home + whisker_length + trust_in_government + fifth_generation,
                            data = data_df)
+#+end_src
 
+** Interogating the fit
+
+#+begin_src R :tangle example-3-answers-b.R
 print(summary(prop_odds_logistic))
 print(confint(prop_odds_logistic))
+#+end_src
 
+#+begin_src R :tangle example-3-answers-b.R
 png("figs/ordinal-logistic-regression-fig-1.png")
 plot(predictorEffects(prop_odds_logistic,
                       ~ whisker_length + trust_in_government),
@@ -50,3 +104,6 @@ plot(predictorEffects(prop_odds_logistic,
      lattice=list(key.args=list(columns=1)),
      lines=list(multiline=TRUE))
 dev.off()
+#+end_src
+
+[[./figs/ordinal-logistic-regression-fig-1.png]]
