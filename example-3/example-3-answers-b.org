@@ -11,6 +11,17 @@ AAS but can be understood based on the material presented in Chapter 14 of Fox.
 *WARNING!* Getting C++ code to work properly from the R kernel in a Jupyter
  notebook is challenging so this analysis is given as a static file instead.
 
+** Effect displays
+
+The interpretation of the coefficients of GLM models (of which logistic
+regression is a special case) is difficult. An /effect display/ is a figure that
+assists in interpreting the fit of the model. In the case of logistic
+regression, it shows the probability of memebership to different response values
+in response to changes in one of the predictors while keeping the remaining ones
+at values that are in some way "typical". For the precise mechanics of how these
+figures are generated, you are recommended to read the [[https://cran.r-project.org/web/packages/effects/index.html][documentation for the
+=effects= package]].
+
 * Packages
 
 #+begin_src R :tangle example-3-answers-b.R
