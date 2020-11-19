@@ -4,7 +4,7 @@ For this example we will use R in addition to the python notebooks.
 
 ** Installing R
 
-*** Method 1: Rstudio 
+*** Method 1: Rstudio (Advised)
 
 Rstudio is a GUI interface to R. There are instructions on how to install
 Rstudio and R available at the following link:
@@ -17,10 +17,10 @@ Anaconda has instructions for setting up R at the following link:
 
 https://docs.anaconda.com/anaconda/navigator/tutorials/create-r-environment/
 
-*** Method 3: Direct from CRAN *DIFFICULT*
+*** Method 3: Direct from CRAN (DIFFICULT)
 
 Unless you are very comfortable installing software, I would advise against this
-approach. You can download binaries or the source crom CRAN. The following link
+approach. You can download binaries or the source from CRAN. The following link
 explains how to do this:
 
 https://cran.r-project.org/doc/manuals/r-release/R-admin.html
