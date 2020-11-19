@@ -5,11 +5,12 @@ range of statistical packages available. Much of the code should seem familiar
 after working with =pandas= and =statsmodels= (the main exception being that
 assignment is declared with an arrow: =<-=)
 
-*WARNING!* Some of the material in this document goes beyond what is taught in
-AAS but can be understood based on the material presented in Chapter 14 of Fox.
-
-*WARNING!* Getting C++ code to work properly from the R kernel in a Jupyter
- notebook is challenging so this analysis is given as a static file instead.
+Please note that some of the material in this document goes beyond what you have
+seen in the lectures but has been included to give you some more perspective for
+when you are doing the summative. Further details can be found in the text book:
+Chapter 14 of Fox (2015). At the time of writing, getting C++ code to work
+properly from the R kernel in a Jupyter notebook is challenging so this analysis
+is given as a static file instead.
 
 ** Effect displays
 
