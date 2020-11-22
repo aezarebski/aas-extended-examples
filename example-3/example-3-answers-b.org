@@ -17,11 +17,15 @@ is given as a static file instead.
 The interpretation of the coefficients of GLM models (of which logistic
 regression is a special case) is difficult. An /effect display/ is a figure that
 assists in interpreting the fit of the model. In the case of logistic
-regression, it shows the probability of memebership to different response values
+regression, it shows the probability of membership to different response values
 in response to changes in one of the predictors while keeping the remaining ones
 at values that are in some way "typical". For the precise mechanics of how these
 figures are generated, you are recommended to read the [[https://cran.r-project.org/web/packages/effects/index.html][documentation for the
 =effects= package]].
+
+The "typical" measure that is used by default is the mean, but please keep in
+mind that if you have bi-modal or highly correlated co-variates this could lead
+to a typical value that is in fact highly atypical.
 
 * Packages
 
@@ -42,7 +46,7 @@ library(effects)
 * Reading in the data
 
 To make sure that R interprets the survey data correctly we need to coerce some
-of the variables to Booleans and Enumerations (factors) as they are represented
+of the variables to Booleans and enumerations (factors) as they are represented
 as integers in the CSV.
 
 #+begin_src R :tangle example-3-answers-b.R
@@ -57,7 +61,8 @@ data_df$support_lockdown <- factor(data_df$support_lockdown,
 * Logistic regression
 
 This is the same as the material already covered in the notebook,
-=example-3-X.ipynb=.
+=example-3-X.ipynb=. We repeat it here as a reference for how to do this sort of
+work in R.
 
 ** Fitting the model
 
@@ -75,7 +80,7 @@ binary_logistic <- glm(will_vaccinate ~ work_from_home + whisker_length + trust_
 )
 #+end_src
 
-** Interogating the fit
+** Interrogating the fit
 
 The =summary= function plays a similar role to the =summary= method of
 =statsmodels=.
@@ -131,14 +136,14 @@ dev.off()
 ** Fitting the model
 
 The =nnet= package provides the =multinom= function which otherwise has behaves
-similar to the analagous function from =statsmodels=.
+similar to the analogous function from =statsmodels=.
 
 #+begin_src R :tangle example-3-answers-b.R
 multi_logistic <- multinom(will_vaccinate ~ work_from_home + whisker_length + trust_in_government + fifth_generation,
                            data = data_df)
 #+end_src
 
-** Interogating the fit
+** Interrogating the fit
 
 #+begin_src R :tangle example-3-answers-b.R
 print(summary(multi_logistic))
@@ -184,20 +189,25 @@ dev.off()
 
 * Ordinal logistic regression: proportional odds
 
+This material goes beyond what has been covered in lectures and so is primarily
+included for those who are interested.
+
 ** Fitting the model
 
 The =MASS= package provides =polr= for proportional odds logistic regression
-which performs ordinal logisitic regression.
+which performs ordinal logistic regression.
 
 #+begin_src R :tangle example-3-answers-b.R
 prop_odds_logistic <- polr(support_lockdown ~ work_from_home + whisker_length + trust_in_government + fifth_generation,
                            data = data_df)
 #+end_src
 
-** Interogating the fit
+** Interrogating the fit
 
-In ordinal logisitic regression you need to estimate the intercept values as
-well as the coefficients of the model.
+In ordinal logistic regression you need to estimate the intercept values,
+denoted \(\alpha\) in Fox (2015), in addition to the coefficients of the model.
+Note that now we only have a single set of coefficients, unlike in the case of
+nominal logistic regression.
 
 #+begin_src R :tangle example-3-answers-b.R
 print(summary(prop_odds_logistic))
