@@ -1,13 +1,18 @@
 * Example 3
 
-For this example we will use R in addition to the python notebooks.
+In this example we again help Professor Mittens analyse some data. However, to
+make use of some useful packages from R we will consider an R script in addition
+to the python notebook. The following might be useful in helping you to install
+R and the necessary packages.
 
 ** Installing R
 
-*** Method 1: Rstudio (Advised)
+*** Method 1: Rstudio (ADVISED)
 
-Rstudio is a GUI interface to R. There are instructions on how to install
-Rstudio and R available at the following link:
+This is the method I would advise for those new to R and who like working in an
+IDE. Rstudio is the best IDE for R and they do a very good job of streamlining
+the setup process. There are instructions on how to install Rstudio and R
+available at the following link:
 
 https://rstudio-education.github.io/hopr/starting.html
 
@@ -24,6 +29,8 @@ approach. You can download binaries or the source from CRAN. The following link
 explains how to do this:
 
 https://cran.r-project.org/doc/manuals/r-release/R-admin.html
+
+If you are an Emacs user, then you might find Emacs Speaks Statistics helpful.
 
 ** Installing packages
 
