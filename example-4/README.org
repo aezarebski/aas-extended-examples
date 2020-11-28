@@ -1,0 +1,5 @@
+* Example 4
+
+** Using =lme4=
+
+The [[https://cran.r-project.org/web/packages/lme4/vignettes/lmer.pdf][vignette for =lme4=]] is useful.
