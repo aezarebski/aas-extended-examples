@@ -7,4 +7,6 @@ book]].
 
 ** Using =lme4=
 
-The [[https://cran.r-project.org/web/packages/lme4/vignettes/lmer.pdf][vignette for =lme4=]] is useful.
+The [[https://cran.r-project.org/web/packages/lme4/vignettes/lmer.pdf][vignette for =lme4=]] is useful, it has been peer reviewed for publication in
+J. Stat. Softw. In particular, Table 2 of that document might serve as a useful
+reference for the syntax used in the formula.
