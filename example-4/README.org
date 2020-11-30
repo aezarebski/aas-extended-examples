@@ -1,5 +1,10 @@
 * Example 4
 
+** Theory
+
+The theory needed for this example is developed in Chapter 23 of the [[https://socialsciences.mcmaster.ca/jfox/Books/Applied-Regression-3E/index.html][course text
+book]].
+
 ** Using =lme4=
 
 The [[https://cran.r-project.org/web/packages/lme4/vignettes/lmer.pdf][vignette for =lme4=]] is useful.
