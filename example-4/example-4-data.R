@@ -105,9 +105,11 @@ main <- function(args) {
   g2 <- ggplot(cat_data, aes(x = age, y = weight, colour = breed, group = id)) +
     geom_line()
 
-  write.table(x = cat_data,
-              file = "cat-weights-by-breed.csv",
-              row.names = FALSE)
+  write.table(
+    x = cat_data,
+    file = "cat-weights-by-breed.csv",
+    row.names = FALSE
+  )
 }
 
 if (!interactive()) {
