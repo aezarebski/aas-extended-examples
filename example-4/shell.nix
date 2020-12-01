@@ -6,6 +6,8 @@ in
     buildInputs = with pkgs; [
       R
       rPackages.dplyr
+      rPackages.purrr
+      rPackages.magrittr
       rPackages.ggplot2
       rPackages.lme4
       rPackages.Matrix
