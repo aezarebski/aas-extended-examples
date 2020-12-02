@@ -10,6 +10,7 @@ in
       rPackages.magrittr
       rPackages.ggplot2
       rPackages.lme4
+      rPackages.MuMIn
       rPackages.Matrix
     ];
    shellHook = ''
