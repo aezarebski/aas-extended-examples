@@ -15,6 +15,11 @@ let
     packages = p: with p; [ p.ggplot2
                             p.nnet
                             p.MASS
+                            p.lme4
+                            p.MuMIn
+                            p.dplyr
+                            p.purrr
+                            p.magrittr
                             p.effects];
   };
 
