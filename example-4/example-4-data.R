@@ -83,7 +83,7 @@ random_cat <- function(cat_id) {
   weights <- random_weights(breed, age_1_weight)
   data.frame(
     breed = breed,
-    weight = weights,
+    weight = rnorm(n = length(weights), mean = weights, sd = 0.3),
     age = CAT_WEIGHT_DATA$age,
     id = cat_id
   )
