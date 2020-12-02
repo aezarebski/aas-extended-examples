@@ -5,14 +5,20 @@ library(ggplot2)
 library(lme4)
 library(MuMIn)
 
+set.seed(1)
+
 CAT_DF <- read.csv("cat-weights-by-breed.csv", sep = " ")
 
 .id_sample <- sample(unique(CAT_DF$id), size = 12)
 
+HEX_CODES <- c("#d8b365", "#5ab4ac")
+LINE_SIZE <- 1.5
 
 g1 <- ggplot(filter(CAT_DF, is.element(id, .id_sample)), aes(x = age, y = weight, group = id)) +
   geom_point() +
-  facet_wrap(~id)
+  facet_wrap(~id) +
+  theme_grey() +
+  labs(x = "Age (years)", y = "Weight (kgs)")
 
 
 summarise_fit_factory <- function(summary_func) {
@@ -44,7 +50,8 @@ g2 <- g1 +
   geom_line(
     data = filter(individual_model_fits, is.element(id, .id_sample)),
     mapping = aes(x = age, y = weight_fit, group = id),
-    linetype = "dashed"
+    size = LINE_SIZE,
+    colour = HEX_CODES[1]
   ) + facet_wrap(~id)
 
 quadratic_model <- lmer(weight ~ poly(age, 2, raw = TRUE) + (poly(age, 2, raw = TRUE) | id),
@@ -59,5 +66,8 @@ cat_df_with_lme_fit <- CAT_DF
 cat_df_with_lme_fit$fit <- fitted(quadratic_model)
 
 g3 <- g2 + geom_line(
-             data = filter(cat_df_with_lme_fit, is.element(id, .id_sample)),
-           mapping = aes(x = age, y = fit, group = id), linetype = "solid")
+  data = filter(cat_df_with_lme_fit, is.element(id, .id_sample)),
+  mapping = aes(x = age, y = fit, group = id),
+  size = LINE_SIZE,
+  colour = HEX_CODES[2]
+)
