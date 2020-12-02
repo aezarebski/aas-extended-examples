@@ -28,10 +28,12 @@ mean_weight_curve <- function(age_1_weight) {
   .l <- CAT_WEIGHT_DATA[1, "weight"]
   .s <- CAT_WEIGHT_DATA[1, "sd"]
   .m <- (age_1_weight - .l) / .s
-  data.frame(
+  .final_age <- max(min(rpois(n = 1, lambda = 10), 20), 7)
+  .df <- data.frame(
     age = CAT_WEIGHT_DATA$age,
     weight = CAT_WEIGHT_DATA$weight + .m * CAT_WEIGHT_DATA$sd
   )
+  head(.df, .final_age)
 }
 
 random_breed <- function() {
@@ -60,8 +62,9 @@ random_age_1_weight <- function(breed) {
 random_weights <- function(breed, age_1_weight) {
   mean_weights <- mean_weight_curve(age_1_weight)
   .sd <- 0.3
-  .x <- (CAT_WEIGHT_DATA$weight - mean(CAT_WEIGHT_DATA$weight)) / diff(range(CAT_WEIGHT_DATA$weight))
-  .y <- seq(from = -0.2, to = 0.2, length = 10)
+  .cwd <- head(CAT_WEIGHT_DATA, nrow(mean_weights))
+  .x <- (.cwd$weight - mean(.cwd$weight)) / diff(range(.cwd$weight))
+  .y <- seq(from = -0.2, to = 0.2, length = 10) # 10 because there are 10 breeds.
   .z <- switch(breed,
     "persian" = .y[1],
     "britishShorthair" = .y[2],
@@ -81,10 +84,11 @@ random_cat <- function(cat_id) {
   breed <- random_breed()
   age_1_weight <- random_age_1_weight(breed)
   weights <- random_weights(breed, age_1_weight)
+  .cwd <- head(CAT_WEIGHT_DATA, length(weights))
   data.frame(
     breed = breed,
     weight = rnorm(n = length(weights), mean = weights, sd = 0.3),
-    age = CAT_WEIGHT_DATA$age,
+    age = .cwd$age,
     id = cat_id
   )
 }
