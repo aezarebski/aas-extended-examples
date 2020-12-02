@@ -34,7 +34,7 @@ individual_model_coefs <- map(
 individual_model_fits <- map(
   .x = unique(CAT_DF$id),
   .f = function(x) {
-    data.frame(age = 1:20, weight_fit = demo_fit(x), id = x)
+    data.frame(age = CAT_DF[CAT_DF$id == x, "age"], weight_fit = demo_fit(x), id = x)
   }
 ) %>% bind_rows()
 
