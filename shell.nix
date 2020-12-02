@@ -16,6 +16,7 @@ let
                             p.nnet
                             p.MASS
                             p.lme4
+                            p.MuMIn
                             p.dplyr
                             p.purrr
                             p.magrittr
