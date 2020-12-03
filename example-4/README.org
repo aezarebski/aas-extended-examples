@@ -1,5 +1,10 @@
 * Example 4
 
+This example is a BOGO! See the notebooks with =grades= in the names to help
+Professor mittens understand the relationship between studying and exam grades.
+If you still want more statistical action, you can see the notebooks with
+=weight= in the title to help Professor Mittens interrogate some time series.
+
 ** Theory
 
 The theory needed for this example is developed in Chapter 23 of the [[https://socialsciences.mcmaster.ca/jfox/Books/Applied-Regression-3E/index.html][course text
