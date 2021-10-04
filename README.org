@@ -11,15 +11,9 @@ before looking at the answers. For some examples there is a
 =example-<n>-data.ipynb= which contains code to simulate data for those examples
 which make use of simulated data.
 
-** Useful links
-
-In addition to the [[https://socialsciences.mcmaster.ca/jfox/Books/Applied-Regression-3E/index.html][course text book]] the following links may be useful to help
-you complete the example notebooks.
-
-- [[https://python.swaroopch.com/][A Byte of Python]] was the book I learnt Python from and is what I would
-  recommend to most people new to programming.
-- The [[https://altair-viz.github.io/gallery/index.html][Example Gallery]] for Altair is very useful as a starting point for custom
-  visualisations.
+In addition to the [[https://socialsciences.mcmaster.ca/jfox/Books/Applied-Regression-3E/index.html][course text book]] the I recommend the book, [[https://python.swaroopch.com/][A Byte of Python]]
+for those relatively new to programming. For an overview of the packages we will
+be using in this course see [[file:./example-0/welcome.ipynb][this notebook]].
 
 ** Jupyter Lab
 
