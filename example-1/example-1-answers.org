@@ -30,6 +30,8 @@ suggestions, not constraints.
   from functools import reduce
   from itertools import repeat
 
+  # TODO Remove this style of colouring
+
   colours = {
       "green": "#7fc97f",
       "purple": "#beaed4",
@@ -99,6 +101,8 @@ method.
 
 *** Answer
 
+**** TODO This function gets a lot of use so should be better documented
+
 #+BEGIN_SRC python :tangle example-1.py
   def wald_estimate_and_ci(num_trials, num_success):
       p_hat = num_success / num_trials
@@ -122,7 +126,9 @@ Repeat the process from the previous question 100000 times and see what
 proportion of the CIs capture the true value of $p$. Is it what you expect?
 Write a couple of sentences to explain what you found.
 
-*** TODO Answer
+*** Answer
+
+**** TODO Avoid =reduce= here
 
 #+BEGIN_SRC python :tangle example-1.py
   rand_xs = stats.binom.rvs(n = 100, p = 0.6, size = 100000)
@@ -195,16 +201,20 @@ following steps:
   sample_size = 200
   num_replicates = 500
 
+  # TODO Use itertools.repeat instead of ugly list
   sample_means = [stats.expon.rvs(scale = 5, size = sample_size).mean() 
                   for _ in range(num_replicates)]
 
   plot_df = pd.DataFrame({"sample_mean": sample_means})
 
   mesh_size = 200
+
+  # TODO Use =numpy.linspace= here.
   x_vals = [0.02 * ix + 3 for ix in range(0,mesh_size)]
 
   clt_scale = 5 / np.sqrt(sample_size)
 
+  # TODO revise after =x_vals= gets updated.
   clt_pdf = [stats.norm.pdf(x, loc = 5, scale = clt_scale)
              for x in x_vals]
   clt_df = pd.DataFrame({"x": x_vals, "pdf": clt_pdf})
@@ -220,6 +230,7 @@ following steps:
 #+END_SRC
 
 #+BEGIN_SRC python :tangle example-1.py
+  # TODO This could be much better with numpy
   unit_mesh = [1 - (1 / len(sample_means)) * ix - (0.5 / len(sample_means)) for ix in range(0,len(sample_means))]
   quantile_vals = [stats.norm.isf(u, loc = 5, scale = clt_scale) for u in unit_mesh]
   sample_means.sort()
@@ -282,6 +293,7 @@ amenable to large value outcomes.
 
 #+BEGIN_SRC python :tangle example-1.py
   k_vals = range(0,30+1)
+  # TODO This could be improved
   k_probs = [stats.binom.pmf(k = k, n = num_flips, p = 0.540) for k in k_vals]
   binom_dist_df = pd.DataFrame({"value": k_vals,
                                 "prob": k_probs})
