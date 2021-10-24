@@ -1,0 +1,437 @@
+* Example 1
+
+** Overview
+
+The material in this notebook covers four topics: binomial distributions, the
+central limit theorem, outliers in data and invalid model assumptions. /You will
+have approximately 15 minutes to work through each part, after which we will go
+through the answers together./ Exercises marked as "extension" may be more
+challenging, so you can skip them on a first reading if you feel they will take
+too much time.
+
+This notebook is available on github [[https://github.com/aezarebski/aas-extended-examples][here]]. If you find errors or would like to
+suggest an improvement, feel free to create an issue.
+
+** Introduction
+
+In this lab we will look at the binomial distribution, central limit theorem,
+and analyse two data sets consisting of a number of coin tosses. We will look
+for a bias in the results of coin flips. Some of the questions are open-ended by
+design. Partial solutions will be distributed at the end of the session. The
+imports below are used in the provided solutions, consider these suggestions,
+not constraints.
+
+#+BEGIN_SRC python :tangle example-1.py
+  import pandas as pd
+  import numpy as np
+  import scipy.stats as stats
+  import matplotlib.pyplot as plt
+  from functools import reduce
+  from itertools import repeat
+
+  colours = {
+      "green": "#7fc97f",
+      "purple": "#beaed4",
+      "orange": "#fdc086",
+      "red": "#ef8a62",
+      "blue": "#67a9cf"
+  }
+#+END_SRC
+
+** Parameter estimation of the binomial distribution
+
+Bernoulli and binomial random variables are the typical way to represent the
+outcome of coin flips. Below we consider estimates of the probability of heads
+based on a known number of successes in a given number of trials and also a
+confidence interval (CI) for this based on the Wald method will be given.
+
+Let $X$ be a binomial random variable (RV) which results from the number of
+heads when a coin is flipped $n$ times and the probability of coming up heads is
+$p$. For the time being we will assume that $n$ is know. The expected value of
+$X$ is $np$. So a simple way to estimate $p$ is to divide the number of heads,
+$X$, by the number of flips, $n$. This gives the estimate
+
+$$
+\hat{p} = X / n.
+$$
+
+It turns out that this is a very sensible thing to do. The resulting estimate is
+called the maximum likelihood estimate (MLE) of $p$. It is also the result that
+one obtains via [[https://en.wikipedia.org/wiki/Method_of_moments_(statistics)][the method of moments]].
+
+Given an estimator though, we want to know how confident we are in the estimate
+it produces. Here we will use the Wald method to get the $95\%$ CI. It is a very
+simple method but is acceptable when we have a fair bit of data. The estimated
+standard error of $\hat{p}$ is $\sqrt{\hat{p}(1-\hat{p})/n}$, so the Wald CI is
+given by
+
+$$
+\hat{p} \pm z \sqrt{\frac{\hat{p}(1-\hat{p})}{n}}
+$$
+
+where $z$ is the appropriate quantile of the standard normal distribution. In
+the case of a $95\%$ distribution this is just $1.96$.
+
+This is stated on the [[https://en.wikipedia.org/wiki/Binomial_distribution#Estimation_of_parameters][wikipedia]] but there is also a reasonably clear description
+in [[https://link.springer.com/book/10.1007/978-0-387-21736-9][All of Statistics]] which you can get via SOLO. You can also find reasonable
+treatments of Wald CIs in both of those resources.
+
+*** Exercise 1 part I (Extension)
+
+Professor Mittens is not very familiar with the binomial distribution and wants
+you to justify the estimator used above. Convince yourself that the estimate
+given above, $X/n$, is a sensible choice. Prove that it is either the MLE or the
+method of moments estimator for $p$. State the limitations on the estimator we
+are using for the CI.
+
+*** Partial answer
+
+- Observe that the expected number of heads is $pn$ and solve for $p$.
+- Consider each flip as a Bernoulli trial and optimise the resulting
+  log-likelihood function
+- The Wald estimate assumes you have enough data to justify an asymptotic
+  solution so is unlikely to be accurate for small datasets.
+
+*** Exercise 1 part II
+
+Implement a function called =wald_estimate_and_ci= which takes two arguments:
+=num_trials= which is $n$ in the description above, and =num_success= which is
+$X$ above. The function should return =(p_hat,(wald_lower,wald_upper))= where
+=p_hat= is $\hat{p}$ and =wald_x= are the limits on the $95\%$ CI using the Wald
+method.
+
+#+BEGIN_SRC python :tangle example-1.py
+  def wald_estimate_and_ci(num_trials, num_success):
+      p_hat = num_success / num_trials
+      z = 1.96
+      delta = z * np.sqrt(p_hat * (1 - p_hat) / num_trials)
+      return (p_hat,(p_hat - delta, p_hat + delta))
+#+END_SRC
+
+*** Exercise 2 part I
+
+Look up how to simulate a random variable from a binomial distribution (it tells
+you [[https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.binom.html#scipy.stats.binom][here]] if you want to use =scipy=). Then simulate a binomial random variable
+with $n=100$ and $p=0.6$. Then use the value and the =wald_estimate_and_ci=
+function to see how well you can estimate $p$. Write a couple of sentences to
+explain this.
+
+*** Exercise 2 part II
+
+Repeat the process about 100000 times and see what proportion of the CIs capture
+the true value of $p$. Is it what you expect? Write a couple of sentences to
+explain what you found.
+
+#+BEGIN_SRC python :tangle example-1.py
+  rand_xs = stats.binom.rvs(n = 100, p = 0.6, size = 100000)
+
+  def ci_contains_value(ci, p):
+      lower,upper = ci
+      return lower < p and p < upper
+
+  p_in_ci_bools = [ci_contains_value(wald_estimate_and_ci(100, x)[1], 0.6) for x in rand_xs]
+
+  reduce(lambda a, b: a + 1 if b else a, p_in_ci_bools, 0) / 100000
+#+END_SRC
+
+*** Exercise 2 part III
+
+Are credible intervals and confidence intervals the same thing?
+
+*** Partial answer
+
+No confidence intervals are talk about repeated experiments in frequentist
+statistics while credible intervals talk about posterior probability in Bayesian
+statistics.
+
+** Central limit theorem
+
+The central limit theorem (CLT) tells us about the limiting distribution of the
+sample mean for distribution for an independent and identically distributed
+(IID) sample with a finite variance. It underpins many results in statistics and
+is important for reasoning about stochastic processes.
+
+*** Exercise 3 part I (Extension)
+
+Professor Mittens /really/ likes to sound fancy and use the name of important
+theorems. Write down a statement of the law of large numbers (LLN). Write down a
+statement of the central limit theorem. Make sure you understand what each of
+them tells you.
+
+*** Partial answer
+
+- $\hat{X}$ converges to $\mu$.
+- $\sqrt{n}(\hat{X} - \mu) / \sigma$ converges in distribution to the standard
+  normal distribution as the sample size increases.
+- The LLN tells you what the limiting value is, the CLT tells you about how
+  about the fluctuations.
+
+*** Exercise 3 part II
+
+To see that the distribution of the sample mean converges to a normal
+distribution we will do a simulation study and compare the results with a Q-Q
+plot to see if it looks normally distributed. This will also demonstrate how to
+construct a Q-Q plot from first principles, not that you really want to do that.
+Carry out the following steps:
+
+1. Write down the distribution of the sample mean given an IID sample of
+   exponential random variables with rate $1/5$.
+2. Generate 500 sample means each based on a sample of 100 exponential random
+   variables
+3. Make a visualisation of the distribution of the data (e.g., a KDE or
+   histogram) and overlay the CLT approximation.
+4. Make a Q-Q plot to see if the sample means do appear to follow a normal
+   distribution
+
+*** Partial answer
+
+- The mean of the exponential distribution is 5.
+- The standard deviation of the exponential distribution is 5
+- The CLT tells us the limiting distribution for the sample mean is
+  $N\left(5,\frac{5^2}{n}\right)$
+
+#+BEGIN_SRC python :tangle example-1.py
+  sample_size = 200
+  num_replicates = 500
+
+  sample_means = [stats.expon.rvs(scale = 5, size = sample_size).mean() 
+                  for _ in range(num_replicates)]
+
+  plot_df = pd.DataFrame({"sample_mean": sample_means})
+
+  mesh_size = 200
+  x_vals = [0.02 * ix + 3 for ix in range(0,mesh_size)]
+
+  clt_scale = 5 / np.sqrt(sample_size)
+
+  clt_pdf = [stats.norm.pdf(x, loc = 5, scale = clt_scale)
+             for x in x_vals]
+  clt_df = pd.DataFrame({"x": x_vals, "pdf": clt_pdf})
+#+END_SRC
+
+#+BEGIN_SRC python :tangle example-1.py
+  plt.figure()
+  plt.hist(plot_df.sample_mean, density=True,  color=colours["blue"])
+  plt.plot(clt_df.x, clt_df.pdf, color=colours["red"], linewidth=5)
+  plt.xlabel("Sample mean")
+  plt.ylabel("Density")
+  plt.show()
+#+END_SRC
+
+#+BEGIN_SRC python :tangle example-1.py
+  unit_mesh = [1 - (1 / len(sample_means)) * ix - (0.5 / len(sample_means)) for ix in range(0,len(sample_means))]
+  quantile_vals = [stats.norm.isf(u, loc = 5, scale = clt_scale) for u in unit_mesh]
+  sample_means.sort()
+  quant_df = pd.DataFrame({
+      "sample_means": sample_means,
+      "quantiles": quantile_vals})
+
+  ab_lims = [min(sample_means)-0.1, max(sample_means)+0.1]
+  abline_df = pd.DataFrame({"x": ab_lims, "y": ab_lims})
+#+END_SRC
+
+#+BEGIN_SRC python :tangle example-1.py
+  plt.figure()
+  plt.scatter(quant_df.sample_means, quant_df.quantiles, color=colours["blue"])
+  plt.plot(abline_df.x, abline_df.y, color=colours["red"])
+  plt.xlabel("Sample mean quantile")
+  plt.ylabel("Normal quantile")
+  plt.show()
+#+END_SRC
+
+** Experimental results: flipping coins in series
+
+Professor Mittens asked 15 of his students to each take turns flipping a coin 30
+times and recording how many heads they got. He has a sneaking suspicion that
+some of the students did not actually do this properly, that they just wrote
+down some garbage and went to lunch early. We will help Mittens work out whether
+the coin that was used was fair, i.e. has an equal chance of showing heads or
+tails.
+
+*** Exercise 3 part I
+
+Read the data in =experiement1.csv= into a =DataFrame=. Use some of the commands
+you've seen in lectures to inspect the data, noting that it may not be in the
+optimal format for analysis.
+
+#+BEGIN_SRC python :tangle example-1.py
+  exp1 = pd.read_csv("experiment1.csv")
+#+END_SRC
+
+*** Exercise 3 part II
+
+Compute the point estimate and CI using the function you wrote above. Write a
+sentence explaining whether you think the coin is a /fair/ coin given the
+results you have just obtained.
+
+#+BEGIN_SRC python :tangle example-1.py
+  head_counts = exp1.drop(columns="flip_number").groupby("name").sum()
+  head_counts["name"] = head_counts.index.copy()
+
+  total_heads = int(head_counts["outcome"].sum())
+  num_people = int(head_counts["name"].unique().size)
+  num_flips = int(exp1["name"].value_counts().unique())
+
+  est_and_ci = wald_estimate_and_ci(num_success=total_heads, 
+                                    num_trials=num_people * num_flips)
+
+  print(est_and_ci)
+#+END_SRC
+
+*** Partial answer
+
+We estimate the probability of heads as 0.49 with a $95\%$ CI of (0.45,0.54). We
+are not able to reject the null hypothesis that the coin is fair.
+
+*** Exercise 3 part III
+
+Generate a histogram of the number of heads from each student. As an extension,
+include the binomial distribution supported by your estimate that is most
+amenable to large value outcomes.
+
+#+BEGIN_SRC python :tangle example-1.py
+  k_vals = range(0,30+1)
+  k_probs = [stats.binom.pmf(k = k, n = num_flips, p = 0.540) for k in k_vals]
+  binom_dist_df = pd.DataFrame({"value": k_vals,
+                                "prob": k_probs})
+#+END_SRC
+
+#+BEGIN_SRC python :tangle example-1.py
+  plt.figure()
+  plt.hist(head_counts.outcome, color=colours["blue"], density=True)
+  plt.plot(binom_dist_df.value, binom_dist_df.prob, color=colours["red"])
+  plt.xlabel("Number of heads")
+  plt.ylabel("Density")
+  plt.show()
+#+END_SRC
+
+*** Exercise 4 part I
+
+It looks like there might be a couple of strange points in this dataset as
+Mittens suspected. Using the upper bound on $p$ calculate the probability of
+someone getting all heads. Write a couple of sentences explaining whether you
+think it is reasonable to remove those data points.
+
+#+BEGIN_SRC python :tangle example-1.py
+  stats.binom.pmf(k = 30, n = 30, p = 0.54)
+#+END_SRC
+
+*** Partial answer
+
+- Even allowing for a high estimate of the probability of heads it seems
+  exceedingly probable that the 30 heads are due to data input errors, hence we
+  removed them from the data set prior to further analysis.
+
+*** Exercise 4 part II
+
+Remove the outliers and repeat the process of plotting the data and estimating
+the parameters and CI. Once you have done this, plot the distribution of the
+estimated binomial distribution on top of the histogram. Write a couple of
+sentences explaining what you think about the coin now.
+
+#+BEGIN_SRC python :tangle example-1.py
+  head_counts_clean = head_counts.loc[head_counts["outcome"] < 30]
+
+  total_heads_clean = int(head_counts_clean["outcome"].sum())
+  num_people_clean = int(head_counts_clean["name"].unique().size)
+
+  wald_estimate_and_ci(num_success=total_heads_clean, num_trials=num_people_clean * num_flips)
+#+END_SRC
+
+#+BEGIN_SRC python :tangle example-1.py
+  k_vals = range(0,31)
+  k_probs = [stats.binom.pmf(k = k, n = num_flips, p = 0.415) for k in k_vals]
+  binom_dist_df = pd.DataFrame({"value": k_vals,
+                                "prob": k_probs})
+#+END_SRC
+
+#+BEGIN_SRC python :tangle example-1.py
+  plt.figure()
+  plt.hist(head_counts_clean.outcome, color=colours["blue"], density=True)
+  plt.plot(binom_dist_df.value, binom_dist_df.prob, color=colours["red"])
+  plt.xlabel("Number of heads")
+  plt.ylabel("Density")
+  plt.show()
+#+END_SRC
+
+*** Partial answer
+
+- After removing two outliers, we estimate the probability of heads as $0.42$
+  with a $95\%$ CI of $(0.37, 0.46)$.
+- Given the CI does not contain the value 0.5, we can reject the null hypothesis
+  that the coin is fair.
+
+** Experimental results: flipping coins in parallel
+
+After the success of his first experiment, Mittens was lauded as a statistical
+wizard. The royal mint has become interested and is providing additional funds
+to obtain an additional 49 coins and repeat the experiment to gather more data
+about the fascinating topic of coin bias. Now he gives each of 50 students a
+coin each and asks them to flip the coin 30 times and record the results. We
+will help Mittens work out whether the coins are fair.
+
+*** Excercise 5 part I
+
+Do we need to change anything about how we analyse this data? If so, why, if
+not, why not? *Hint:* there are good arguments that can be given for each
+answer. Once you have answered one way, try to answer the other way.
+
+*** Partial answer
+
+If you assume the coins have the same probability of heads it is fine. If you
+assume that the coins vary then you would need to adjust the model.
+
+*** Exercise 5 part II
+
+Using the data in =experiment2.csv= explore the data set using the methodology
+devised above and write a couple of sentences to explain what you found.
+
+#+BEGIN_SRC python :tangle example-1.py
+  exp2 = pd.read_csv("experiment2.csv")
+
+  head_counts = exp2.drop(columns="flip_number").groupby("name").sum()
+  head_counts["name"] = head_counts.index.copy()
+
+  total_heads = int(head_counts["outcome"].sum())
+  num_people = int(head_counts["name"].unique().size)
+  num_flips = int(exp2["name"].value_counts().unique())
+
+  wald_estimate = wald_estimate_and_ci(num_success=total_heads, 
+                                       num_trials=num_people * num_flips)
+
+  print(wald_estimate)
+#+END_SRC
+
+*** Exercise 5 part III
+
+Visualise the number of heads each student got and compare the variance in this
+to what is predicted by theory. Revise your answer to part I of this exercise.
+
+#+BEGIN_SRC python :tangle example-1.py
+  emp_var = head_counts["outcome"].var()
+  thry_var = stats.binom.var(n = num_flips, p = wald_estimate[0])
+  print(emp_var,thry_var)
+#+END_SRC
+
+#+BEGIN_SRC python :tangle example-1.py
+  plt.figure()
+  plt.scatter(head_counts.name, head_counts.outcome, color=colours["blue"])
+  plt.show()
+#+END_SRC
+
+*** Partial answer
+
+- There appears to be systematic differences in the number of heads obtained.
+- The variance is too great.
+- It seems that we should not consider all the coins as identical.
+
+*** Exercise 5 part IV (Extension)
+
+Consider how you might analyse this data. Over the following weeks you will
+learn a couple of approaches.
+
+*** Partial answer
+
+One could use a negative binomial distribution if one were interested in an
+empirical analysis or a hierarchical model if one were interested in a
+structural analysis.
