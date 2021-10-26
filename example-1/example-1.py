@@ -2,8 +2,6 @@ import pandas as pd
 import numpy as np
 import scipy.stats as stats
 import matplotlib.pyplot as plt
-from functools import reduce
-from itertools import repeat
 
 def wald_estimate_and_ci(num_trials, num_success):
     p_hat = num_success / num_trials

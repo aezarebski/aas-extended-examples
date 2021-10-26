@@ -3,9 +3,9 @@
 ** Overview
 
 The material in this notebook covers four topics: binomial distributions, the
-central limit theorem, outliers in data and invalid model assumptions. /You will
+central limit theorem, outliers in data and invalid model assumptions. You will
 have approximately 15 minutes to work through each part, after which we will go
-through the answers together./ Some questions may be challenging, feel free to
+through the answers together. Some questions may be challenging, feel free to
 skip harder questions on a first reading if you feel they will take too much
 time during the tutorial.
 
@@ -19,56 +19,53 @@ and analyse two data sets consisting of a number of coin tosses. We will look
 for a bias in the results of coin flips. Some of the questions are open-ended by
 design. Partial solutions will be distributed at the end of the session.
 
-The imports below are used in the provided solutions, consider these
-suggestions, not constraints.
+As usual we will start by importing some useful libraries.
 
 #+BEGIN_SRC python :tangle example-1.py
   import pandas as pd
   import numpy as np
   import scipy.stats as stats
   import matplotlib.pyplot as plt
-  from functools import reduce
-  from itertools import repeat
 #+END_SRC
 
 ** Parameter estimation of the binomial distribution
 
-We now consider the task of estimating the probability that the coin comes up
-heads. We also want to understand the level of confidence we have in this
-estimate; we use a /confidence interval/ (CI) to describe the range of values we
-are confident the "true" probability of heads lies within.
+We want to make an /estimate/ the probability that a coin comes up heads. We
+also want to understand the level of confidence we have in this estimate; we use
+a /confidence interval/ (CI) to describe the range of values we are confident
+the "true" probability of heads lies within.
 
 Binomial random variables can be used to model the number of times a coin comes
 up heads when flipped $n$ times. Let $X$ be a binomial random variable (RV)
 representing the number of heads that are observed when a coin is flipped $n$
-times and the probability of coming up heads is $p$. We assume we know what $n$
-is but that $p$ is unknown.
+times and the probability of coming up heads is $p$. We assume that $n$ is known
+but $p$ is unknown.
 
-The expected value of $X$ is $np$. So a simple way to estimate $p$ is to divide
-the number of heads, $X$, by the number of flips, $n$. This gives the estimate
+The expected value of $X$, ie the average number of times that the coin comes up
+heads, is $np$. So a simple way to estimate $p$ is to divide the number of
+heads, $X$, by the number of flips, $n$. This gives the estimate
 
 $$
 \hat{p} = X / n.
 $$
 
-It turns out that this is a very sensible thing to do. The resulting estimate is
-called the maximum likelihood estimate (MLE) of $p$. It is also the result that
-one obtains via [[https://en.wikipedia.org/wiki/Method_of_moments_(statistics)][the method of moments]].
+This estimator is called the [[https://en.wikipedia.org/wiki/Method_of_moments_(statistics)][the method of moments]]. This is also an example of a
+maximum likelihood estimate (MLE).
 
-Given an estimator, such as $\hat{p}$, we usually want to quantify out
-uncertainty in its value. Here we will use the /Wald method/ to get the $95\%$
-CI. It is a very simple method, but it is acceptable when we have lots of data.
-The estimated standard error of $\hat{p}$ is $\sqrt{\hat{p}(1-\hat{p})/n}$, so
-the Wald CI is given by
+Given an estimator, such as $\hat{p}$, we usually want to quantify the
+uncertainty. The /Wald method/ is one way to get the $95\%$ CI. It is a
+very simple method, but it is acceptable when we have lots of data. The
+estimated standard error of $\hat{p}$ is $\sqrt{\hat{p}(1-\hat{p})/n}$, so the
+Wald CI is given by
 
 $$
 \hat{p} \pm z \sqrt{\frac{\hat{p}(1-\hat{p})}{n}}
 $$
 
 where $z$ is the appropriate quantile of the standard normal distribution. In
-the case of a $95\%$ distribution this is $1.96$.
+the case of a $95\%$ distribution this value is $1.96$.
 
-The details are all given on the [[https://en.wikipedia.org/wiki/Binomial_distribution#Estimation_of_parameters][wikipedia]] but there is also a reasonably clear
+The details are all given on the [[https://en.wikipedia.org/wiki/Binomial_distribution#Estimation_of_parameters][Wikipedia]] but there is also a reasonably clear
 description in [[https://link.springer.com/book/10.1007/978-0-387-21736-9][All of Statistics]] which you can get via SOLO. You can also find
 reasonable treatments of Wald CIs in both of those resources.
 
@@ -90,8 +87,6 @@ $X$ above. The function should return =(p_hat,(wald_lower,wald_upper))= where
 method.
 
 *** Answer
-
-**** TODO This function gets a lot of use so should be better documented
 
 #+BEGIN_SRC python :tangle example-1.py
   def wald_estimate_and_ci(num_trials, num_success):
@@ -117,8 +112,6 @@ proportion of the CIs capture the true value of $p$. Is it what you expect?
 Write a couple of sentences to explain what you found.
 
 *** Answer
-
-**** TODO Avoid =reduce= here
 
 #+BEGIN_SRC python :tangle example-1.py
   rand_xs = stats.binom.rvs(n = 100, p = 0.6, size = 100000)
@@ -164,25 +157,18 @@ you.
 - $\hat{X}$ converges to $\mu$.
 - $\sqrt{n}(\hat{X} - \mu) / \sigma$ converges in distribution to the standard
   normal distribution as the sample size increases.
-- The LLN tells you what the limiting value is, the CLT tells you about how
-  about the fluctuations.
+- The LLN tells you what the limiting value is, the CLT tells you about the
+  fluctuations in the estimate.
+
+** Example: CLT
+
+To see that the distribution of the sample mean converges to a normal
+distribution we will do a simulation study.
 
 *** Question
 
-To see that the distribution of the sample mean converges to a normal
-distribution we will do a simulation study. We visualise the simulated estimates
-with a Q-Q plot to see if they look normally distributed. This will also
-demonstrate how to construct a Q-Q plot from first principles. Carry out the
-following steps:
-
-1. Write down the distribution of the sample mean given an IID sample of
-   exponential random variables with rate $1/5$.
-2. Generate 500 sample means each based on a sample of 100 exponential random
-   variables
-3. Make a visualisation of the distribution of the data (e.g., a KDE or
-   histogram) and overlay the CLT approximation.
-4. Make a Q-Q plot to see if the sample means do appear to follow a normal
-   distribution
+Write down the distribution of the sample mean given an IID sample of
+exponential random variables with rate $1/5$.
 
 *** Answer
 
@@ -191,7 +177,16 @@ following steps:
 - The CLT tells us the limiting distribution for the sample mean is
   $N\left(5,\frac{5^2}{n}\right)$
 
-#+BEGIN_SRC python :tangle example-1.py
+*** Question
+
+2. Generate 500 sample means each based on a sample of 100 exponential random
+   variables
+3. Make a visualisation of the distribution of the data (e.g., a KDE or
+   histogram) and overlay the CLT approximation.
+
+*** Answer
+
+#+begin_src python :tangle example-1.py
   sample_size = 200
   num_replicates = 500
 
@@ -212,18 +207,24 @@ following steps:
           "pdf": stats.norm.pdf(x_vals, loc = 5, scale = clt_scale)
       }
   )
-#+END_SRC
 
-#+BEGIN_SRC python :tangle example-1.py
   plt.figure()
   plt.hist(plot_df.sample_mean, density=True,  color="blue")
   plt.plot(clt_df.x, clt_df.pdf, color="red", linewidth=5)
   plt.xlabel("Sample mean")
   plt.ylabel("Density")
   plt.show()
-#+END_SRC
+#+end_src
 
-#+BEGIN_SRC python :tangle example-1.py
+*** Question
+
+Another way to assess if the sample appear to come from a normal distribution is
+to use a Q-Q plot. Generate a Q-Q plot to check if the samples appear to be
+normally distributed.
+
+*** Answer
+
+#+begin_src python :tangle example-1.py
   unit_mesh = np.linspace(
       1 - 0.5 / num_replicates,
       0.5 / num_replicates,
@@ -238,16 +239,14 @@ following steps:
 
   ab_lims = [min(sample_means)-0.1, max(sample_means)+0.1]
   abline_df = pd.DataFrame({"x": ab_lims, "y": ab_lims})
-#+END_SRC
 
-#+BEGIN_SRC python :tangle example-1.py
   plt.figure()
   plt.scatter(quant_df.sample_means, quant_df.quantiles, color="blue")
   plt.plot(abline_df.x, abline_df.y, color="red")
   plt.xlabel("Sample mean quantile")
   plt.ylabel("Normal quantile")
   plt.show()
-#+END_SRC
+#+end_src
 
 ** Experimental results: flipping coins in series
 
@@ -324,7 +323,6 @@ is reasonable to remove those data points.
 
 *** Question
 
-Remove the outliers and repeat the process of plotting the data and estimating
 the parameters and CI. Once you have done this, plot the distribution of the
 estimated binomial distribution on top of the histogram. Write a couple of
 sentences explaining what you think about the coin now.
