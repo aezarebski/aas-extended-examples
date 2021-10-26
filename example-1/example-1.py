@@ -9,7 +9,9 @@ def wald_estimate_and_ci(num_trials, num_success):
     delta = z * np.sqrt(p_hat * (1 - p_hat) / num_trials)
     return (p_hat,(p_hat - delta, p_hat + delta))
 
-rand_xs = stats.binom.rvs(n = 100, p = 0.6, size = 100000)
+num_trials = 100
+num_repeats = 100000
+rand_xs = stats.binom.rvs(n = num_trials, p = 0.6, size = num_repeats)
 
 def ci_contains_value(ci, p):
     lower,upper = ci
@@ -21,7 +23,7 @@ for x in rand_xs:
     if ci_contains_value(ci, 0.6):
         in_ci_count += 1
 
-print(in_ci_counti_count / sample_size)
+print(in_ci_count / num_repeats)
 
 sample_size = 200
 num_replicates = 500

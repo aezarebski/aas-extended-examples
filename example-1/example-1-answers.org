@@ -114,7 +114,9 @@ Write a couple of sentences to explain what you found.
 *** Answer
 
 #+BEGIN_SRC python :tangle example-1.py
-  rand_xs = stats.binom.rvs(n = 100, p = 0.6, size = 100000)
+  num_trials = 100
+  num_repeats = 100000
+  rand_xs = stats.binom.rvs(n = num_trials, p = 0.6, size = num_repeats)
 
   def ci_contains_value(ci, p):
       lower,upper = ci
@@ -126,7 +128,7 @@ Write a couple of sentences to explain what you found.
       if ci_contains_value(ci, 0.6):
           in_ci_count += 1
 
-  print(in_ci_counti_count / sample_size)
+  print(in_ci_count / num_repeats)
 #+END_SRC
 
 *** Question
