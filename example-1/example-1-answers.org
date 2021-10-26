@@ -251,9 +251,9 @@ normally distributed.
 ** Experimental results: flipping coins in series
 
 Each of 15 students take turns flipping a coin 30 times and recording how many
-heads they got. There is a sneaking suspicion that some of the students did not
-actually do this properly, that they just wrote down some garbage and went to
-lunch early.
+heads they got. There is a suspicion that some of the students did not actually
+do this properly. Some people think they just wrote down some garbage and went
+to lunch early.
 
 Read the data in =experiement1.csv= into a =DataFrame=.
 
@@ -318,12 +318,12 @@ is reasonable to remove those data points.
 #+END_SRC
 
 - Even allowing for a high estimate of the probability of heads it seems
-  exceedingly probable that the 30 heads are due to data input errors, hence we
-  removed them from the data set prior to further analysis.
+  unlikely that the 30 heads are genuine, hence we removed them from the data
+  set prior to further analysis.
 
 *** Question
 
-the parameters and CI. Once you have done this, plot the distribution of the
+Once the questionable data has been removed, plot the distribution of the
 estimated binomial distribution on top of the histogram. Write a couple of
 sentences explaining what you think about the coin now.
 
@@ -361,10 +361,10 @@ sentences explaining what you think about the coin now.
 
 ** Experimental results: flipping coins in parallel
 
-The royal mint has become interested and is providing additional funds to obtain
-an additional 49 coins and repeat the experiment to gather more data about the
-fascinating topic of coin bias. Now, each of 50 students is given a coin each
-and asked to flip the coin 30 times and record the results.
+The royal mint has become interested and wants to study an additional 49 coins
+and repeat the experiment to gather more data about the fascinating topic of
+coin bias. Now, each of 50 students is given a coin each and asked to flip the
+coin 30 times and record the results.
 
 *** Question
 
