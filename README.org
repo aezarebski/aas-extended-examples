@@ -1,5 +1,3 @@
-[[./.resources/mittens.jpg]]
-
 * Applied Analytic Statistics
 
 The notebooks in this repository are being written for use in the course Applied
@@ -23,9 +21,21 @@ cells prior to commiting any changes.
 The =shell.nix= file describes a package for running the notebooks in this
 repository. To activate the notebook server run the following command.
 
-#+BEGIN_SRC sh
+#+begin_src sh
 nix-shell --command "jupyter lab"
-#+END_SRC
+#+end_src
 
 The =shell.nix= file is based on the instructions provided by [[https://github.com/tweag/jupyterWith#jupyterwith][jupyterWith
 repository]] from Tweag.
+
+** Pandoc
+
+The pandoc tool is very useful for moving between different formats of notebook.
+
+#+begin_src sh
+  nix-shell -p pandoc
+  pandoc example-n-answers.org -o example-n-answers.ipynb
+#+end_src
+
+This gets 90% of the conversion done, you jsut need to steo through the notebook
+in JupyterLab to check it formatted correctly.
