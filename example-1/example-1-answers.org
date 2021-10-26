@@ -29,16 +29,6 @@ suggestions, not constraints.
   import matplotlib.pyplot as plt
   from functools import reduce
   from itertools import repeat
-
-  # TODO Remove this style of colouring
-
-  colours = {
-      "green": "#7fc97f",
-      "purple": "#beaed4",
-      "orange": "#fdc086",
-      "red": "#ef8a62",
-      "blue": "#67a9cf"
-  }
 #+END_SRC
 
 ** Parameter estimation of the binomial distribution
@@ -138,7 +128,7 @@ Write a couple of sentences to explain what you found.
       return lower < p and p < upper
 
   p_in_ci_bools = [ci_contains_value(wald_estimate_and_ci(100, x)[1], 0.6) for x in rand_xs]
-
+  # TODO This is horrendous
   reduce(lambda a, b: a + 1 if b else a, p_in_ci_bools, 0) / 100000
 #+END_SRC
 
@@ -201,37 +191,41 @@ following steps:
   sample_size = 200
   num_replicates = 500
 
-  # TODO Use itertools.repeat instead of ugly list
-  sample_means = [stats.expon.rvs(scale = 5, size = sample_size).mean() 
+  sample_means = [stats.expon.rvs(scale = 5, size = sample_size).mean()
                   for _ in range(num_replicates)]
 
   plot_df = pd.DataFrame({"sample_mean": sample_means})
 
   mesh_size = 200
 
-  # TODO Use =numpy.linspace= here.
-  x_vals = [0.02 * ix + 3 for ix in range(0,mesh_size)]
+  x_vals = np.linspace(3, 7, num=200)
 
   clt_scale = 5 / np.sqrt(sample_size)
 
-  # TODO revise after =x_vals= gets updated.
-  clt_pdf = [stats.norm.pdf(x, loc = 5, scale = clt_scale)
-             for x in x_vals]
-  clt_df = pd.DataFrame({"x": x_vals, "pdf": clt_pdf})
+  clt_df = pd.DataFrame(
+      {
+          "x": x_vals,
+          "pdf": stats.norm.pdf(x_vals, loc = 5, scale = clt_scale)
+      }
+  )
 #+END_SRC
 
 #+BEGIN_SRC python :tangle example-1.py
   plt.figure()
-  plt.hist(plot_df.sample_mean, density=True,  color=colours["blue"])
-  plt.plot(clt_df.x, clt_df.pdf, color=colours["red"], linewidth=5)
+  plt.hist(plot_df.sample_mean, density=True,  color="blue")
+  plt.plot(clt_df.x, clt_df.pdf, color="red", linewidth=5)
   plt.xlabel("Sample mean")
   plt.ylabel("Density")
   plt.show()
 #+END_SRC
 
 #+BEGIN_SRC python :tangle example-1.py
-  # TODO This could be much better with numpy
-  unit_mesh = [1 - (1 / len(sample_means)) * ix - (0.5 / len(sample_means)) for ix in range(0,len(sample_means))]
+  unit_mesh = np.linspace(
+      1 - 0.5 / num_replicates,
+      0.5 / num_replicates,
+      num = num_replicates
+  )
+
   quantile_vals = [stats.norm.isf(u, loc = 5, scale = clt_scale) for u in unit_mesh]
   sample_means.sort()
   quant_df = pd.DataFrame({
@@ -244,8 +238,8 @@ following steps:
 
 #+BEGIN_SRC python :tangle example-1.py
   plt.figure()
-  plt.scatter(quant_df.sample_means, quant_df.quantiles, color=colours["blue"])
-  plt.plot(abline_df.x, abline_df.y, color=colours["red"])
+  plt.scatter(quant_df.sample_means, quant_df.quantiles, color="blue")
+  plt.plot(abline_df.x, abline_df.y, color="red")
   plt.xlabel("Sample mean quantile")
   plt.ylabel("Normal quantile")
   plt.show()
@@ -293,16 +287,15 @@ amenable to large value outcomes.
 
 #+BEGIN_SRC python :tangle example-1.py
   k_vals = range(0,30+1)
-  # TODO This could be improved
-  k_probs = [stats.binom.pmf(k = k, n = num_flips, p = 0.540) for k in k_vals]
+  k_probs = stats.binom.pmf(k = k_vals, n = num_flips, p = 0.540)
   binom_dist_df = pd.DataFrame({"value": k_vals,
                                 "prob": k_probs})
 #+END_SRC
 
 #+BEGIN_SRC python :tangle example-1.py
   plt.figure()
-  plt.hist(head_counts.outcome, color=colours["blue"], density=True)
-  plt.plot(binom_dist_df.value, binom_dist_df.prob, color=colours["red"])
+  plt.hist(head_counts.outcome, color="blue", density=True)
+  plt.plot(binom_dist_df.value, binom_dist_df.prob, color="red")
   plt.xlabel("Number of heads")
   plt.ylabel("Density")
   plt.show()
@@ -352,8 +345,8 @@ sentences explaining what you think about the coin now.
 
 #+BEGIN_SRC python :tangle example-1.py
   plt.figure()
-  plt.hist(head_counts_clean.outcome, color=colours["blue"], density=True)
-  plt.plot(binom_dist_df.value, binom_dist_df.prob, color=colours["red"])
+  plt.hist(head_counts_clean.outcome, color="blue", density=True)
+  plt.plot(binom_dist_df.value, binom_dist_df.prob, color="red")
   plt.xlabel("Number of heads")
   plt.ylabel("Density")
   plt.show()
@@ -420,7 +413,7 @@ to what is predicted by theory.
 
 #+BEGIN_SRC python :tangle example-1.py
   plt.figure()
-  plt.scatter(head_counts.name, head_counts.outcome, color=colours["blue"])
+  plt.scatter(head_counts.name, head_counts.outcome, color="blue")
   plt.show()
 #+END_SRC
 
