@@ -127,9 +127,13 @@ Write a couple of sentences to explain what you found.
       lower,upper = ci
       return lower < p and p < upper
 
-  p_in_ci_bools = [ci_contains_value(wald_estimate_and_ci(100, x)[1], 0.6) for x in rand_xs]
-  # TODO This is horrendous
-  reduce(lambda a, b: a + 1 if b else a, p_in_ci_bools, 0) / 100000
+  in_ci_count = 0
+  for x in rand_xs:
+      _, ci = wald_estimate_and_ci(num_trials, x)
+      if ci_contains_value(ci, 0.6):
+          in_ci_count += 1
+
+  print(in_ci_counti_count / sample_size)
 #+END_SRC
 
 *** Question
@@ -268,7 +272,7 @@ Compute the point estimate and CI using the function you wrote above.
   num_people = int(head_counts["name"].unique().size)
   num_flips = int(exp1["name"].value_counts().unique())
 
-  est_and_ci = wald_estimate_and_ci(num_success=total_heads, 
+  est_and_ci = wald_estimate_and_ci(num_success=total_heads,
                                     num_trials=num_people * num_flips)
 
   print(est_and_ci)

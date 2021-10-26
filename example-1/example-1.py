@@ -17,9 +17,13 @@ def ci_contains_value(ci, p):
     lower,upper = ci
     return lower < p and p < upper
 
-p_in_ci_bools = [ci_contains_value(wald_estimate_and_ci(100, x)[1], 0.6) for x in rand_xs]
+in_ci_count = 0
+for x in rand_xs:
+    _, ci = wald_estimate_and_ci(num_trials, x)
+    if ci_contains_value(ci, 0.6):
+        in_ci_count += 1
 
-reduce(lambda a, b: a + 1 if b else a, p_in_ci_bools, 0) / 100000
+print(in_ci_counti_count / sample_size)
 
 sample_size = 200
 num_replicates = 500
