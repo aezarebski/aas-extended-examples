@@ -24,23 +24,23 @@ reduce(lambda a, b: a + 1 if b else a, p_in_ci_bools, 0) / 100000
 sample_size = 200
 num_replicates = 500
 
-# TODO Use itertools.repeat instead of ugly list
-sample_means = [stats.expon.rvs(scale = 5, size = sample_size).mean() 
+sample_means = [stats.expon.rvs(scale = 5, size = sample_size).mean()
                 for _ in range(num_replicates)]
 
 plot_df = pd.DataFrame({"sample_mean": sample_means})
 
 mesh_size = 200
 
-# TODO Use =numpy.linspace= here.
-x_vals = [0.02 * ix + 3 for ix in range(0,mesh_size)]
+x_vals = np.linspace(3, 7, num=200)
 
 clt_scale = 5 / np.sqrt(sample_size)
 
-# TODO revise after =x_vals= gets updated.
-clt_pdf = [stats.norm.pdf(x, loc = 5, scale = clt_scale)
-           for x in x_vals]
-clt_df = pd.DataFrame({"x": x_vals, "pdf": clt_pdf})
+clt_df = pd.DataFrame(
+    {
+        "x": x_vals,
+        "pdf": stats.norm.pdf(x_vals, loc = 5, scale = clt_scale)
+    }
+)
 
 plt.figure()
 plt.hist(plot_df.sample_mean, density=True,  color="blue")
@@ -49,8 +49,12 @@ plt.xlabel("Sample mean")
 plt.ylabel("Density")
 plt.show()
 
-# TODO This could be much better with numpy
-unit_mesh = [1 - (1 / len(sample_means)) * ix - (0.5 / len(sample_means)) for ix in range(0,len(sample_means))]
+unit_mesh = np.linspace(
+    1 - 0.5 / num_replicates,
+    0.5 / num_replicates,
+    num = num_replicates
+)
+
 quantile_vals = [stats.norm.isf(u, loc = 5, scale = clt_scale) for u in unit_mesh]
 sample_means.sort()
 quant_df = pd.DataFrame({
@@ -76,14 +80,13 @@ total_heads = int(head_counts["outcome"].sum())
 num_people = int(head_counts["name"].unique().size)
 num_flips = int(exp1["name"].value_counts().unique())
 
-est_and_ci = wald_estimate_and_ci(num_success=total_heads, 
+est_and_ci = wald_estimate_and_ci(num_success=total_heads,
                                   num_trials=num_people * num_flips)
 
 print(est_and_ci)
 
 k_vals = range(0,30+1)
-# TODO This could be improved
-k_probs = [stats.binom.pmf(k = k, n = num_flips, p = 0.540) for k in k_vals]
+k_probs = stats.binom.pmf(k = k_vals, n = num_flips, p = 0.540)
 binom_dist_df = pd.DataFrame({"value": k_vals,
                               "prob": k_probs})
 
