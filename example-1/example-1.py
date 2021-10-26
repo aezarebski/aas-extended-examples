@@ -5,16 +5,6 @@ import matplotlib.pyplot as plt
 from functools import reduce
 from itertools import repeat
 
-# TODO Remove this style of colouring
-
-colours = {
-    "green": "#7fc97f",
-    "purple": "#beaed4",
-    "orange": "#fdc086",
-    "red": "#ef8a62",
-    "blue": "#67a9cf"
-}
-
 def wald_estimate_and_ci(num_trials, num_success):
     p_hat = num_success / num_trials
     z = 1.96
@@ -53,8 +43,8 @@ clt_pdf = [stats.norm.pdf(x, loc = 5, scale = clt_scale)
 clt_df = pd.DataFrame({"x": x_vals, "pdf": clt_pdf})
 
 plt.figure()
-plt.hist(plot_df.sample_mean, density=True,  color=colours["blue"])
-plt.plot(clt_df.x, clt_df.pdf, color=colours["red"], linewidth=5)
+plt.hist(plot_df.sample_mean, density=True,  color="blue")
+plt.plot(clt_df.x, clt_df.pdf, color="red", linewidth=5)
 plt.xlabel("Sample mean")
 plt.ylabel("Density")
 plt.show()
@@ -71,8 +61,8 @@ ab_lims = [min(sample_means)-0.1, max(sample_means)+0.1]
 abline_df = pd.DataFrame({"x": ab_lims, "y": ab_lims})
 
 plt.figure()
-plt.scatter(quant_df.sample_means, quant_df.quantiles, color=colours["blue"])
-plt.plot(abline_df.x, abline_df.y, color=colours["red"])
+plt.scatter(quant_df.sample_means, quant_df.quantiles, color="blue")
+plt.plot(abline_df.x, abline_df.y, color="red")
 plt.xlabel("Sample mean quantile")
 plt.ylabel("Normal quantile")
 plt.show()
@@ -98,8 +88,8 @@ binom_dist_df = pd.DataFrame({"value": k_vals,
                               "prob": k_probs})
 
 plt.figure()
-plt.hist(head_counts.outcome, color=colours["blue"], density=True)
-plt.plot(binom_dist_df.value, binom_dist_df.prob, color=colours["red"])
+plt.hist(head_counts.outcome, color="blue", density=True)
+plt.plot(binom_dist_df.value, binom_dist_df.prob, color="red")
 plt.xlabel("Number of heads")
 plt.ylabel("Density")
 plt.show()
@@ -119,8 +109,8 @@ binom_dist_df = pd.DataFrame({"value": k_vals,
                               "prob": k_probs})
 
 plt.figure()
-plt.hist(head_counts_clean.outcome, color=colours["blue"], density=True)
-plt.plot(binom_dist_df.value, binom_dist_df.prob, color=colours["red"])
+plt.hist(head_counts_clean.outcome, color="blue", density=True)
+plt.plot(binom_dist_df.value, binom_dist_df.prob, color="red")
 plt.xlabel("Number of heads")
 plt.ylabel("Density")
 plt.show()
@@ -144,5 +134,5 @@ thry_var = stats.binom.var(n = num_flips, p = wald_estimate[0])
 print(emp_var,thry_var)
 
 plt.figure()
-plt.scatter(head_counts.name, head_counts.outcome, color=colours["blue"])
+plt.scatter(head_counts.name, head_counts.outcome, color="blue")
 plt.show()
