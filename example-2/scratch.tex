@@ -1,0 +1,56 @@
+\documentclass[11pt]{scrartcl}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{hyperref}
+\begin{document}
+
+This question involves the use of simple linear regression on the Auto data set.
+
+\begin{itemize}
+\item Use the \texttt{lm()} function to perform a simple linear regression with mpg as the
+response and horsepower as the predictor. Use the \texttt{summary()} function to
+print the results. Comment on the output. For example:
+\begin{enumerate}
+\item Is there a relationship between the predictor and the response?
+\item How strong is the relationship between the predictor and the response?
+\item Is the relationship between the predictor and the response positive or
+negative?
+\item What is the predicted mpg associated with a horsepower of 98? What are the
+associated 95 percent conﬁdence and prediction intervals?
+\end{enumerate}
+\item Plot the response and the predictor. Use the \texttt{abline()} function to display
+the least squares regression line.
+\item Use the \texttt{plot()} function to produce diagnostic plots of the least squares
+regression ﬁt. Comment on any problems you see with the ﬁt.
+\end{itemize}
+
+This question involves the use of multiple linear regression on the Auto data
+set.
+
+\begin{itemize}
+\item Produce a scatterplot matrix which includes all of the variables in the data
+set.
+\item Compute the matrix of correlations between the variables using the function
+\texttt{cor()}. You will need to exclude the name variable, \texttt{cor()} which is
+qualitative.
+\item Use the \texttt{lm()} function to perform a multiple linear regression with mpg as
+the response and all other variables except name as the predictors. Use the
+\texttt{summary()} function to print the results. Comment on the output. For
+instance:
+\begin{enumerate}
+\item Is there a relationship between the predictors and the response?
+\item Which predictors appear to have a statistically signiﬁcant relationship to
+the response?
+\item What does the coeﬃcient for the year variable suggest?
+\end{enumerate}
+\item Use the \texttt{plot()} function to produce diagnostic plots of the linear regression
+ﬁt. Comment on any problems you see with the ﬁt. Do the residual plots suggest
+any unusually large outliers? Does the leverage plot identify any observations
+with unusually high leverage?
+\item Use the \texttt{*} and \texttt{:} symbols to ﬁt linear regression models with interaction
+eﬀects. Do any interactions appear to be statistically signiﬁcant?
+\item Try a few diﬀerent transformations of the variables, such as \(\log{X}\),
+\(\sqrt{X}\) and \(X^{2}\). Comment on your findings.
+\end{itemize}
+\end{document}
