@@ -37,5 +37,5 @@ The pandoc tool is very useful for moving between different formats of notebook.
   pandoc example-n-answers.org -o example-n-answers.ipynb
 #+end_src
 
-This gets 90% of the conversion done, you jsut need to steo through the notebook
+This gets 90% of the conversion done, you just need to step through the notebook
 in JupyterLab to check it formatted correctly.
