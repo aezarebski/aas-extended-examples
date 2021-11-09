@@ -12,7 +12,7 @@ def correlation_heatmap(df):
     fig, ax = plt.subplots()
     im, cbar = heatmap(corr_matrix, col_names, col_names, ax=ax,
                        cmap="RdYlBu", cbarlabel="Correlation")
-    texts = annotate_heatmap(im, valfmt="{x:.1f}")
+    texts = annotate_heatmap(im, valfmt="{x:.2f}")
     fig.tight_layout()
     # plt.show()
     return
