@@ -1,0 +1,33 @@
+#+title: Setting up environment
+
+* Jupyter Lab
+
+The information here is intended to make it easier for people to set up Jupyter
+Lab. To keep the notebooks in a neat state, please restart the kernel and run
+all cells prior to committing any changes.
+
+** Nix shell
+
+If you do not have Jupyter Lab set up on your machine this following option
+offers a simple way to set it up, provided you are happy to install Nix. The
+=shell.nix= file describes a package for running the notebooks in this
+repository. To activate the notebook server run the following command.
+
+#+begin_src sh
+nix-shell --command "jupyter lab"
+#+end_src
+
+The =shell.nix= file is based on the instructions provided by [[https://github.com/tweag/jupyterWith#jupyterwith][jupyterWith
+repository]] from Tweag.
+
+** Pandoc
+
+The pandoc tool is very useful for moving between different formats of notebook.
+
+#+begin_src sh
+  nix-shell -p pandoc
+  pandoc example-n-answers.org -o example-n-answers.ipynb
+#+end_src
+
+This gets 90% of the conversion done, you just need to step through the notebook
+in Jupyter Lab to check it formatted correctly.
