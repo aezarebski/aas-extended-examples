@@ -1,10 +1,36 @@
 #+title: Setting up environment
 
-* Jupyter Lab
-
 The information here is intended to make it easier for people to set up Jupyter
 Lab. To keep the notebooks in a neat state, please restart the kernel and run
 all cells prior to committing any changes.
+
+* Environments
+
+When working on a data science project, it is very helpful to have control over
+your computational environment, e.g. the version of python you are using and the
+versions of the packages. The following methods are worth keeping in mind.
+
+** TODO Anaconda
+
+** Virtual environment
+
+If you are comfortable with the command line and already have python installed,
+you can use the built-in virtual environment module to set this up.
+
+#+begin_src sh
+  # create and activate the virtual environment
+  python3 -m venv venv
+  source venv/bin/activate
+  # upgrade to the latest version of pip
+  pip install -U pip
+  # install required packages
+  pip install jupyterlab
+  pip install numpy
+  pip install scipy
+  pip install matplotlib
+  pip install pandas
+  pip install statsmodels
+#+end_src
 
 ** Nix shell
 
