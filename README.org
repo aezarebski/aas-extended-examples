@@ -11,4 +11,4 @@ which make use of simulated data.
 
 In addition to the [[https://socialsciences.mcmaster.ca/jfox/Books/Applied-Regression-3E/index.html][course text book]] the I recommend the book, [[https://python.swaroopch.com/][A Byte of Python]]
 for those relatively new to programming. For an overview of the packages we will
-be using in this course see [[file:./example-0/welcome.ipynb][this notebook]].
+be using in this course see =setup.org=.
