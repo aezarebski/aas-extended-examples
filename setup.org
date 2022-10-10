@@ -10,7 +10,11 @@ When working on a data science project, it is very helpful to have control over
 your computational environment, e.g. the version of python you are using and the
 versions of the packages. The following methods are worth keeping in mind.
 
-** TODO Anaconda
+** Anaconda
+
+[[https://www.anaconda.com/][Anaconda]] is a distribution of Python intended for data science. The standard individual version entails a wide variety of packages and applications including Jupyter Lab, and all of the packages used in this course. Therefore, an easy way to get set up for this course is simply to install Python through Anaconda.
+
+The second key feature of Anaconda is the =conda= package manager. You may have run across =pip= package management in the past, where you install new packages using =pip install packageName=. Conda enhances this behaviour by ensuring consistency between newly installed and existing packages, and is run using =conda install packageName=. When possible, this approach is preferred to pip because you do not have the risk of breaking something you've already installed. However, conda does not have the same coverage as pip, and is sometimes less up to date. Conda can also be substantially slower if you have a large number of packages in your environment. If conda has issues, you can always fall back to pip, keeping in mind the risks.
 
 ** Virtual environment
 
