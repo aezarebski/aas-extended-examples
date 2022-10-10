@@ -36,6 +36,18 @@ you can use the built-in virtual environment module to set this up.
   pip install statsmodels
 #+end_src
 
+We've also made a =requirements.txt= file which lets you install all of the necessary packages in one command as shown below. When you are working with someone else, or using multiple machines, using virtual environments and a =requirements.txt= can be extremely helpful for quickly setting up in a new place. Making one is very easy, in your environment just run the command =pip freeze > requirements.txt=. =pip freeze= captures the packages in the current environment as a text file, and => requirements.txt= pipes that text into a file of that name.
+
+#+begin_src sh
+  # create and activate the virtual environment
+  python3 -m venv venv
+  source venv/bin/activate
+  # upgrade to the latest version of pip
+  pip install -U pip
+  # install required packages
+  pip install -r requirements.txt
+#+end_src
+
 ** Nix shell
 
 If you do not have Jupyter Lab set up on your machine this following option
