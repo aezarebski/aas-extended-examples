@@ -2,7 +2,7 @@
 
 The notebooks in this repository are being written for use in the course Applied
 Analytic Statistics. Each of the directories, contains two
-notebooks: = example name - questions.ipynb= and =example name - answers.ipynb=. The
+notebooks: =example name - questions.ipynb= and =example name - answers.ipynb=. The
 /questions/ notebook contains the questions for the practical sessions and the
 /answers/ one has partial answers. Please give the questions a solid attempt
 before looking at the answers. For some examples there is a
