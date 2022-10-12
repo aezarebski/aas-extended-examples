@@ -17,7 +17,13 @@ Probably the simplest way to run the notebooks in for these tutorials is
 a browser to be installed on your machine and a Google account. Once you open
 this page, click the *GitHub* tab and paste in the URL of this repository:
 =https://github.com/aezarebski/aas-extended-examples=. This should then give you
-a list of the detected notebooks to select from.
+a list of the detected notebooks to select from as shown in the figure below.
+
+#+caption: Example of Google Colab notebook selection.
+#+name: fig:colab
+#+attr_org: :width 600px
+#+attr_html: :width 600px
+[[./.resources/colab-screenshot-2022-10-12.png]]
 
 ** Anaconda
 
