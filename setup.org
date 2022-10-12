@@ -10,6 +10,15 @@ When working on a data science project, it is very helpful to have control over
 your computational environment, e.g. the version of python you are using and the
 versions of the packages. The following methods are worth keeping in mind.
 
+** Google Colab
+
+Probably the simplest way to run the notebooks in for these tutorials is
+[[https://colab.research.google.com/][Google's Colab]]. This is a browser based notebook environment which only requires
+a browser to be installed on your machine and a Google account. Once you open
+this page, click the *GitHub* tab and paste in the URL of this repository:
+=https://github.com/aezarebski/aas-extended-examples=. This should then give you
+a list of the detected notebooks to select from.
+
 ** Anaconda
 
 [[https://www.anaconda.com/][Anaconda]] is a distribution of Python intended for data science. The standard individual version entails a wide variety of packages and applications including Jupyter Lab, and all of the packages used in this course. Therefore, an easy way to get set up for this course is simply to install Python through Anaconda.
@@ -18,8 +27,40 @@ The second key feature of Anaconda is the =conda= package manager. You may have 
 
 ** Virtual environment
 
+*** Setting up and using the virtual environment
+
 If you are comfortable with the command line and already have python installed,
-you can use the built-in virtual environment module to set this up.
+you can use the built-in virtual environment module to set this up. Setting up a
+virtual environment is simple. Just follow the steps below in your terminal. We
+made a =requirements.txt= file which lets you install all of the necessary
+packages in one command as shown below.
+
+#+begin_src sh
+  # create and activate the virtual environment
+  python3 -m venv venv
+  source venv/bin/activate
+  # upgrade to the latest version of pip
+  pip install -U pip
+  # install required packages
+  pip install -r requirements.txt
+#+end_src
+
+Once you have a virtual environment working with jupyterlab installed, starting
+Jupyter Lab is as simple as
+
+#+begin_src sh
+  jupyter lab
+#+end_src
+
+and pointing your browser to the address printed out. When you are finished
+working with this virtual environment, deactive by running =deactivate= in your
+terminal.
+
+*** Building your own the virtual environment
+
+If you want to understand how we build this =requirements.txt= file, see the
+following instructions. You don't need to use this unless you want to tweak the
+set up for your own projects.
 
 #+begin_src sh
   # create and activate the virtual environment
@@ -36,17 +77,10 @@ you can use the built-in virtual environment module to set this up.
   pip install statsmodels
 #+end_src
 
-We've also made a =requirements.txt= file which lets you install all of the necessary packages in one command as shown below. When you are working with someone else, or using multiple machines, using virtual environments and a =requirements.txt= can be extremely helpful for quickly setting up in a new place. Making one is very easy, in your environment just run the command =pip freeze > requirements.txt=. =pip freeze= captures the packages in the current environment as a text file, and => requirements.txt= pipes that text into a file of that name.
-
-#+begin_src sh
-  # create and activate the virtual environment
-  python3 -m venv venv
-  source venv/bin/activate
-  # upgrade to the latest version of pip
-  pip install -U pip
-  # install required packages
-  pip install -r requirements.txt
-#+end_src
+ Making the =requirements.txt= file is easy, from a session with your
+ environment activated run the command =pip freeze > requirements.txt=. The =pip
+ freeze= command prints the packages in the current environment, and =>
+ requirements.txt= pipes that text into a file of that name.
 
 ** Nix shell
 
