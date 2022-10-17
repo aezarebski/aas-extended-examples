@@ -99,17 +99,24 @@ repository. To activate the notebook server run the following command.
 nix-shell --command "jupyter lab"
 #+end_src
 
-The =shell.nix= file is based on the instructions provided by [[https://github.com/tweag/jupyterWith#jupyterwith][jupyterWith
-repository]] from Tweag.
+The =shell.nix= file is based on the instructions provided by
+[[https://github.com/tweag/jupyterWith#jupyterwith][jupyterWith repository]]
+from Tweag.
 
-** Pandoc
+* Colophon
 
-The pandoc tool is very useful for moving between different formats of notebook.
+[[https://jupytext.readthedocs.io/en/latest/index.html][Jupytext]] is an extension that allows you to /pair/ a jupyter notebook and a
+plain text version of it. If you have this set up as described in the
+[[https://jupytext.readthedocs.io/en/latest/install.html][installation guide]] and the notebooks are [[https://jupytext.readthedocs.io/en/latest/paired-notebooks.html][paired]] properly, then you can work on
+either version and jupyterlab will keep them in sync in a nice way. This
+supports both python code and basic latex, (presumably via MathJax), so should
+be sufficient for most writing.
 
-#+begin_src sh
-  nix-shell -p pandoc
-  pandoc example-n-answers.org -o example-n-answers.ipynb
-#+end_src
+Why should you care about this? Because having a sensible plaintext version of
+these notebooks will make editing and version control much easier, and opens the
+possibility for automating the creation of "questions" notesbooks from the
+"answers" notebooks. Plus we get all the nice benefits of things like spell
+checking!
 
-This gets 90% of the conversion done, you just need to step through the notebook
-in Jupyter Lab to check it formatted correctly.
+*Note:* It does not appear that the vanilla pandoc method generates sensible
+ Ipython notebooks.
