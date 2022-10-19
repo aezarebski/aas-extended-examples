@@ -309,7 +309,8 @@ except:
 iris.head()
 ```
 
-The following cell demonstrates how we can use the `query` method to select a subset of the data and then plot it.
+The following cell demonstrates how we can use the `query` method to select a
+subset of the data and then plot it.
 
 ```python
 plt.figure()
@@ -322,21 +323,28 @@ plt.legend(title = "Species", loc = "upper right")
 plt.show()
 ```
 
-Pandas provides many tools to wrangle data. The following example summarises the sepal length of each species. It starts by grouping the data by species, then it extracts the sepal length variable, finally it computes the mean and standard deviation of these values
+Pandas provides many tools to wrangle data. The following example summarises the
+sepal length of each species. It starts by grouping the data by species, then it
+extracts the sepal length variable, finally it computes the mean and standard
+deviation of these values
 
 ```python
 iris_summary = iris.groupby("species")[["sepal_length"]].agg({"sepal_length": ["std", "mean"]})
 print(iris_summary)
 ```
 
-Depending upon the version of pandas the previous code may throw an error. If that is the case, try replacing it with the following
+Depending upon the version of pandas the previous code may throw an error. If
+that is the case, try replacing it with the following
 
 ```
 iris_summary = iris.groupby("species").agg({"sepal_length": ["std", "mean"]})
 ```
 
-
-This data can then be represented as a bar chart with error bars to indicate two standard deviations about the mean. This is a popular way to visualise this sort of data. It is not the optimal way to represent this data, can you think of a better way? Why do you think we have used two standard deviations in the error bars?
+This data can then be represented as a bar chart with error bars to indicate two
+standard deviations about the mean. This is a popular way to visualise this sort
+of data. It is not the optimal way to represent this data, can you think of a
+better way? Why do you think we have used two standard deviations in the error
+bars?
 
 ```python
 plt.figure()
@@ -351,17 +359,30 @@ plt.show()
 
 ### Question
 
-Find a better (in your opinion) way to display these data and explain why you think it is better.
-
+Find a better (in your opinion) way to display these data and explain why you
+think it is better.
 
 ### Question
 
-What do you notice about the correlation between the sepal length and width? Is there a positive or negative correlation?
+What do you notice about the correlation between the sepal length and width? Is
+there a positive or negative correlation?
 
 * _Hint 1_ [hmmm](https://en.wikipedia.org/wiki/Simpson%27s_paradox)
 * _Hint 2_ [it should only take two lines of code](https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.core.groupby.DataFrameGroupBy.corr.html?highlight=corr#)
 
 
+### Other useful functions
+
+There are a lot of helpful functions provided by pandas.
+
+- `pd.read_csv` and `pd.DataFrame.to_csv`, and related functions for different
+  formats.
+- `pd.DataFrame.rename` to rename the axis labels of a data frame.
+- `pd.DataFrame.describe`, `pd.DataFrame.columns`, `pd.DataFrame.info`, and
+  `pd.DataFrame.dtypes` to get a high level description of various aspects of a
+  data frame.
+- `pd.crosstab` and `pd.value_counts` are useful for getting numerical summaries
+  of the data.
 
 ## Statsmodels
 
