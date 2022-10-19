@@ -15,9 +15,7 @@ jupyter:
 
 <!-- #region tags=[] -->
 # Welcome to AAS!
-<!-- #endregion -->
 
-<!-- #region tags=[] -->
 ## Getting Started in Python
 
 In this course, we assume a very basic knowledge of python syntax, which can be learned in a variety of places, including directly from the [Python Software Foundation](https://www.python.org/about/gettingstarted/). An expansive [cheat sheet](https://www.utc.fr/~jlaforet/Suppl/python-cheatsheets.pdf) for data science in Python is available from DataCamp.
@@ -30,7 +28,7 @@ This notebook will introduce the main python packages we will be using in this c
 * `pandas` for data wrangling
 * `statsmodels` for statistical algorithms
 
-All of these packages are currently included when you install [Anaconda](https://www.anaconda.com/). Anaconda also makes sure that the versions of each package are consistent and provides helpful tools like Jupyter Lab, where you can run this notebook. 
+All of these packages are currently included when you install [Anaconda](https://www.anaconda.com/). Anaconda also makes sure that the versions of each package are consistent and provides helpful tools like Jupyter Lab, where you can run this notebook.
 
 <!-- #endregion -->
 
@@ -136,7 +134,7 @@ From here, it is easy to count them. In fact, there are multiple ways to do it. 
 x[x>3].size
 ```
 
-**WARNING:** There are a couple of ways to index into a numpy array and they have different effects. Understanding how to exploit this is useful but beyond the scope of this course. 
+**WARNING:** There are a couple of ways to index into a numpy array and they have different effects. Understanding how to exploit this is useful but beyond the scope of this course.
 
 <!-- #region tags=[] -->
 ### Question
@@ -172,7 +170,7 @@ def my_median(a):
         return (0.5 * (tmp[ix-1] + tmp[ix]))
     else:
         return (tmp[ix])
-    
+
 aa = np.array([1.])
 print(f'Actual Median: {np.median(aa)}\n'
       f'My Median {my_median(aa)}\n'
@@ -219,7 +217,7 @@ stats.norm.pdf(x = 1, loc = 0, scale = 1)
 
 ### Question
 
-Generate a large number of random variable with a geometric distribution with parameter $p = 1/2$ and confirm that the average of these values is close to the mean of that distribution. 
+Generate a large number of random variable with a geometric distribution with parameter $p = 1/2$ and confirm that the average of these values is close to the mean of that distribution.
 
 *Hint:* the [wikipedia page](https://en.wikipedia.org/wiki/Geometric_distribution) for the geometric distribution may be useful with this.
 
@@ -251,7 +249,7 @@ import matplotlib.pyplot as plt
 %matplotlib inline
 ```
 
-Below we provide the code for some of the fundemental plots you will need. There is an extensive [gallery](https://matplotlib.org/stable/gallery/index.html) to demonstrate more complex plots. 
+Below we provide the code for some of the fundemental plots you will need. There is an extensive [gallery](https://matplotlib.org/stable/gallery/index.html) to demonstrate more complex plots.
 
 
 ### Line plot
@@ -362,13 +360,26 @@ It is possible to compute the standard deviation of the distribution of estimate
 
 ## Pandas
 
-Pandas provides functions for a lot of standard data manipulations, and is a very popular Python package in data science for that reason. This includes functions for [reading data from many formats](https://pandas.pydata.org/docs/getting_started/intro_tutorials/02_read_write.html#min-tut-02-read-write). The convention is to import it as `pd`. The `head` method prints the first couple of rows in the dataframe.
+Pandas provides functions for a lot of standard data manipulations, and is a
+very popular Python package in data science for that reason. This includes
+functions for [reading data from many
+formats](https://pandas.pydata.org/docs/getting_started/intro_tutorials/02_read_write.html#min-tut-02-read-write).
+The convention is to import it as `pd`.
 
 ```python
 import pandas as pd
 ```
 
-The `read_csv` function will read a CSV into a pandas dataframe. Pandas will first attempt to load the data from a local file, but if it cannot find `iris.csv` it will attempt to download it from the URL given. Here we are loading the `iris` data set, which has some information about flowers of three related species.
+The `read_csv` function reads a CSV file and returns a pandas dataframe. In the
+snippet below, we use a try-catch block to first attempt to load the data from a
+local file and then, if that fails (i.e. it can't find `iris.csv`) it will
+attempt to download it from the URL provided.
+
+The `iris` data set, has some information about flowers of three related species
+of iris. This data set has a long history in statistics. The `head` method of
+the dataframe prints the first couple of rows in the dataframe. This is a useful
+thing to keep in mind, if you try to print a large dataframe it can cause your
+python session to hang.
 
 ```python tags=[]
 iris_url = "https://raw.githubusercontent.com/aezarebski/aas-extended-examples/main/example-0/iris.csv"
@@ -381,7 +392,7 @@ except:
     print("Could not load iris from file, defaulting to URL")
     iris = pd.read_csv(iris_url)
     print("iris loaded from URL\n")
-        
+
 iris.head()
 ```
 
@@ -416,8 +427,8 @@ This data can then be represented as a bar chart with error bars to indicate two
 
 ```python
 plt.figure()
-plt.bar(iris_summary.index, 
-        iris_summary.sepal_length["mean"], 
+plt.bar(iris_summary.index,
+        iris_summary.sepal_length["mean"],
         yerr=2*iris_summary.sepal_length["std"],
         color = "#67a9cf")
 plt.xlabel("Species")
@@ -446,7 +457,7 @@ Plots that display the data in a clean way with minimal loss of information are 
 What do you notice about the correlation between the sepal length and width? Is there a positive or negative correlation?
 
 * _Hint 1_ [hmmm](https://en.wikipedia.org/wiki/Simpson%27s_paradox)
-* _Hint 2_ [it should only take two lines of code](https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.core.groupby.DataFrameGroupBy.corr.html?highlight=corr#) 
+* _Hint 2_ [it should only take two lines of code](https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.core.groupby.DataFrameGroupBy.corr.html?highlight=corr#)
 
 
 
@@ -458,7 +469,7 @@ The two lines of code to see this are shown below.
 
 
 ```python
-iris.filter(items = ["sepal_length", "sepal_width", "species"]).corr()
+iris.filter(items = ["sepal_length", "sepal_width", "species"]).corr(numeric_only = True)
 ```
 
 ```python
