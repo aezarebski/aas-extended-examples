@@ -103,6 +103,13 @@ The =shell.nix= file is based on the instructions provided by
 [[https://github.com/tweag/jupyterWith#jupyterwith][jupyterWith repository]]
 from Tweag.
 
+* The repository
+
+If you have cloned this repository and are working through the notebooks as part
+of the Applied Analytical Statistics course, it might be useful to download
+GitHub Desktop to assist in keeping your notebooks up to date with the versions
+online.
+
 * Colophon
 
 [[https://jupytext.readthedocs.io/en/latest/index.html][Jupytext]] is an extension that allows you to /pair/ a jupyter notebook and a
