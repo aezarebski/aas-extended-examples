@@ -122,19 +122,22 @@ plt.ylabel("Density")
 plt.show()
 ```
 
-Estimating the mean of a small sample
--------------------------------------
+## Estimating the mean of a small sample
 
-If we have a sample from a normal distribution with sample mean $\bar{x}$ and known the standard deviation, $\sigma$, the $(1-\alpha)100\%$ CI for the estimate of the mean is
+If we have a sample from a normal distribution with sample mean $\bar{x}$ and
+known the standard deviation, $\sigma$, the $(1-\alpha)100\%$ CI for the
+estimate of the mean is
 
 $$
 \bar{x} \pm z_{\alpha / 2} \frac{\sigma}{\sqrt{n}}
 $$
 
+where $z_{\alpha / 2}$ comes from the inverse CDF.
 
 ### Question
 
-Simulate a set of 5 draws from a $N(1,1)$ distribution and, assuming the standard deviation is known, check if the $95\%$ CI contains the true mean.
+Simulate a set of 5 draws from a $N(1,1)$ distribution and, assuming the
+standard deviation is known, check if the $95\%$ CI contains the true mean.
 
 
 ### Answer
@@ -143,6 +146,7 @@ Simulate a set of 5 draws from a $N(1,1)$ distribution and, assuming the standar
 def f1():
     n = 5
     x_bar = stats.norm.rvs(loc = 1.0, scale = 1.0, size = n).mean()
+    # Percent Point Function (Inverse of CDF).
     z_a2 = stats.norm.ppf(0.975)
     lower_lim = x_bar - z_a2 * 1.0 / np.sqrt(n)
     upper_lim = x_bar + z_a2 * 1.0 / np.sqrt(n)
@@ -153,7 +157,8 @@ print(f1())
 
 ### Question
 
-Now repeat this process 1000 times and check how many times it contains the true mean. Do you think the coverage of the CI will be correct?
+Now repeat this process 1000 times and check how many times it contains the true
+mean. Do you think the coverage of the CI will be correct?
 
 
 ### Answer
