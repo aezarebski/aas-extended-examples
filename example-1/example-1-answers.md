@@ -38,12 +38,77 @@ import matplotlib.pyplot as plt
 
 ## Central limit theorem
 
-The central limit theorem (CLT) tells us about the limiting distribution
-of the sample mean for distribution for an independent and identically
-distributed (IID) sample with a finite variance. It underpins many
-results in statistics and is important for reasoning about stochastic
-processes.
+The central limit theorem (CLT) tells us about the distribution of the sample
+mean as the number of observations grows. A lot of results in statistics rely on
+the CLT, so it is worth getting familiar with the details. There are some
+conditions that need to be satisfied for the CLT to hold, for example, we will
+usually want to know that the samples are independent and identically
+distributed (IID) and that they are drawn from a distribution with a finite
+variance.
 
+## CLT: Motivating example
+
+### Question
+
+Write the following functions:
+
+1. A function called `rand_exp_mean` which takes a number, `n`, and a rate,
+   `lam` and returns the sample average of `n` exponentially distributed (with
+   rate `lam`) random variables. Note this should return a different value each
+   time you call it.
+2. A function called `rand_sample_means` which takes a number, `n` and a rate,
+   `lam` and returns an array with 1000 evaluations of the function call
+   `rand_exp_mean(n, lam)`. Note that a list comprehension may help here.
+
+### Answer
+
+```python
+def rand_exp_mean(n, lam):
+    return stats.expon.rvs(scale = 1/lam, size = n).mean()
+
+def rand_sample_means(n, lam):
+    return np.array([rand_exp_mean(n, lam) for _ in range(1000)])
+```
+
+### Question
+
+Make a histogram of the values from `rand_sample_means` in the question above
+with `lam=0.2` and `n=5`. Plot the probability density function of a normal
+distribution with mean $5$ and standard deviation $5 / \sqrt{5}$. Repeat whis
+process with `n=100` and with a normal distribution with standard distribution
+$5 / \sqrt{100}$. What do you notice?
+
+### Answer
+
+First the plot with `n=5`
+
+```python
+n = 5
+rand_sms = rand_sample_means(n, 0.2)
+clt_xs = np.linspace(rand_sms.min(), rand_sms.max(), num=100)
+clt_ys = stats.norm.pdf(clt_xs, loc=5, scale=5/np.sqrt(n))
+
+plt.figure()
+plt.hist(rand_sms, density=True)
+plt.plot(clt_xs, clt_ys)
+plt.show()
+```
+
+Then the plot with `n=100`
+
+```python
+n = 100
+rand_sms = rand_sample_means(n, 0.2)
+clt_xs = np.linspace(rand_sms.min(), rand_sms.max(), num=100)
+clt_ys = stats.norm.pdf(clt_xs, loc=5, scale=5/np.sqrt(n))
+
+plt.figure()
+plt.hist(rand_sms, density=True)
+plt.plot(clt_xs, clt_ys)
+plt.show()
+```
+
+## CLT: Theory
 
 ### Question
 
@@ -81,46 +146,6 @@ exponential random variables with rate $1/5$.
 -   The CLT tells us the limiting distribution for the sample mean is
     $N\left(5,\frac{5^2}{n}\right)$
 
-
-### Question
-
-1.  Generate 500 sample means each based on a sample of 100 exponential
-    random variables
-2.  Make a visualisation of the distribution of the data (e.g., a KDE or
-    histogram) and overlay the CLT approximation.
-
-
-### Answer
-
-```python
-sample_size = 200
-num_replicates = 500
-
-sample_means = [stats.expon.rvs(scale = 5, size = sample_size).mean()
-                for _ in range(num_replicates)]
-
-plot_df = pd.DataFrame({"sample_mean": sample_means})
-
-mesh_size = 200
-
-x_vals = np.linspace(3, 7, num=200)
-
-clt_scale = 5 / np.sqrt(sample_size)
-
-clt_df = pd.DataFrame(
-    {
-        "x": x_vals,
-        "pdf": stats.norm.pdf(x_vals, loc = 5, scale = clt_scale)
-    }
-)
-
-plt.figure()
-plt.hist(plot_df.sample_mean, density=True,  color="#67a9cf")
-plt.plot(clt_df.x, clt_df.pdf, color="#ef8a62", linewidth=5)
-plt.xlabel("Sample mean")
-plt.ylabel("Density")
-plt.show()
-```
 
 ## Estimating the mean of a small sample
 
