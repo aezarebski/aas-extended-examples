@@ -6,7 +6,7 @@ jupyter:
       extension: .md
       format_name: markdown
       format_version: '1.3'
-      jupytext_version: 1.14.1
+      jupytext_version: 1.14.0
   kernelspec:
     display_name: Python 3 (ipykernel)
     language: python
@@ -34,6 +34,87 @@ import pandas as pd
 import numpy as np
 import scipy.stats as stats
 import matplotlib.pyplot as plt
+```
+
+## Probability Review
+
+
+This section is a brief review of probability as a way to work towards the central limit theorem.
+
+
+### Expected Value
+
+
+For a real-valued random variable, the expected value is the average of the possible outcomes weighted by the respective probabilites of occuring.
+
+
+### Question
+
+Define a random variable X as follows: roll a fair six-sided die until a six is rolled, then record the total number of rolls required. What is the expected value of X?
+
+We have answered this question mathematically below. Simulate this procedure and show the result with a chart to verify the math is correct.
+
+<!-- #region -->
+### Mathematical Answer
+
+The expected value is given by the summation over all possible values of X multiplied by their probabilites:
+
+$\mathbb{E}(X) = \sum_{i=1}^{\infty}i*P(X=i)$
+
+For a fair die, the probability $P(X=i) = \frac{5}{6}^{i-1}*\frac{1}{6}$
+
+The summation is then:
+
+$\mathbb{E}(X) = \sum_{i=1}^{\infty}i*\frac{5}{6}^{i-1}*\frac{1}{6} = 1*\frac{5}{6}^{0}*\frac{1}{6} + 2*\frac{5}{6}^{1}*\frac{1}{6} + 3*\frac{5}{6}^{2}*\frac{1}{6} ... $
+
+We can observe that this is a sum of several geometric series with $r=\frac{5}{6}$:
+
+$\frac{5}{6}^{0}*\frac{1}{6} + 2*\frac{5}{6}^{1}*\frac{1}{6} + 3*\frac{5}{6}^{2}*\frac{1}{6}... = $
+
+$\frac{5}{6}^{0}*\frac{1}{6} + \quad  \frac{5}{6}^{1}*\frac{1}{6}  + \quad \frac{5}{6}^{2}*\frac{1}{6}...$
+
+$\qquad \quad + \quad  \frac{5}{6}^{1}*\frac{1}{6} + \quad \frac{5}{6}^{2}*\frac{1}{6}...$
+
+$\qquad \quad + \qquad  \qquad + \quad \frac{5}{6}^{2}*\frac{1}{6}...$
+
+The sum of each series is $\frac{a}{1-r}$ where $a$ is the first term, so this is equivalent to:
+
+$\frac{\frac{1}{6}}{1-\frac{5}{6}} + \frac{\frac{5}{36}}{1-\frac{5}{6}} + \frac{\frac{25}{216}}{1-\frac{5}{6}}...$
+
+$ = 1 + \frac{5}{6} + \frac{25}{36}...$
+
+Which is itself a geometric series:
+
+$\sum_{i=1}^{\infty}\frac{5}{6}^i = \frac{1}{1-\frac{5}{6}} = 6$
+
+Therefore, $\mathbb{E}(X) = 6$
+
+
+**NOTE:** As a shortcut, you could have noticed that this is one of the definitions of a geometric random variable and looked up the mean to find that it is $\frac{1}{p}$
+
+
+
+<!-- #endregion -->
+
+### Monte Carlo Approach
+
+```python
+all_rolls = stats.randint(1,7).rvs(10000)
+
+i = 0
+counts = []
+for j in all_rolls:
+    i += 1
+    if j == 6:
+        counts.append(i)
+        i = 0
+
+counts = np.array(counts)
+        
+plt.hist(counts, bins=np.max(counts))
+plt.show()
+
+print(f'Empirical mean: {np.mean(counts)}')
 ```
 
 ## Central limit theorem
