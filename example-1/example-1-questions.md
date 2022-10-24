@@ -13,16 +13,21 @@ jupyter:
     name: python3
 ---
 
-Example 1
-=========
+# Example 1
 
+## Overview
 
-This notebook is available on github
-[here](https://github.com/aezarebski/aas-extended-examples). If you find
-errors or would like to suggest an improvement, feel free to create an
-issue.
+This notebook reviews
 
-As usual we will start by importing some useful libraries.
+- some of the aspects of the central limit theorem,
+- confidence intervals,
+- and hypothesis testing.
+
+As usual we will start by importing some useful libraries. Recall from the
+[previous
+notebook](https://github.com/aezarebski/aas-extended-examples/tree/main/example-0)
+that it is good practise to import these packages with the standard
+abbreviations of their names.
 
 ```python
 import pandas as pd
@@ -31,22 +36,45 @@ import scipy.stats as stats
 import matplotlib.pyplot as plt
 ```
 
-Central limit theorem
----------------------
+## Central limit theorem
 
-The central limit theorem (CLT) tells us about the limiting distribution
-of the sample mean for distribution for an independent and identically
-distributed (IID) sample with a finite variance. It underpins many
-results in statistics and is important for reasoning about stochastic
-processes.
+The central limit theorem (CLT) tells us about the distribution of the sample
+mean as the number of observations grows. A lot of results in statistics rely on
+the CLT, so it is worth getting familiar with the details. There are some
+conditions that need to be satisfied for the CLT to hold, for example, we will
+usually want to know that the samples are independent and identically
+distributed (IID) and that they are drawn from a distribution with a finite
+variance.
 
+## CLT: Motivating example
+
+### Question
+
+Write the following functions:
+
+1. A function called `rand_exp_mean` which takes a number, `n`, and a rate,
+   `lam` and returns the sample average of `n` exponentially distributed (with
+   rate `lam`) random variables. Note this should return a different value each
+   time you call it.
+2. A function called `rand_sample_means` which takes a number, `n` and a rate,
+   `lam` and returns an array with 1000 evaluations of the function call
+   `rand_exp_mean(n, lam)`. Note that a list comprehension may help here.
+
+### Question
+
+Make a histogram of the values from `rand_sample_means` in the question above
+with `lam=0.2` and `n=5`. Plot the probability density function of a normal
+distribution with mean $5$ and standard deviation $5 / \sqrt{5}$. Repeat whis
+process with `n=100` and with a normal distribution with standard distribution
+$5 / \sqrt{100}$. What do you notice?
+
+## CLT: Theory
 
 ### Question
 
 Write down a statement of the law of large numbers (LLN). Write down a
 statement of the central limit theorem. Make sure you understand what
 each of them tells you.
-
 
 Example: CLT
 ------------
@@ -60,33 +88,28 @@ distribution we will do a simulation study.
 Write down the distribution of the sample mean given an IID sample of
 exponential random variables with rate $1/5$.
 
+## Estimating the mean of a small sample
 
-### Question
-
-1.  Generate 500 sample means each based on a sample of 100 exponential
-    random variables
-2.  Make a visualisation of the distribution of the data (e.g., a KDE or
-    histogram) and overlay the CLT approximation.
-
-
-Estimating the mean of a small sample
--------------------------------------
-
-If we have a sample from a normal distribution with sample mean $\bar{x}$ and known the standard deviation, $\sigma$, the $(1-\alpha)100\%$ CI for the estimate of the mean is
+If we have a sample from a normal distribution with sample mean $\bar{x}$ and
+known the standard deviation, $\sigma$, the $(1-\alpha)100\%$ CI for the
+estimate of the mean is
 
 $$
 \bar{x} \pm z_{\alpha / 2} \frac{\sigma}{\sqrt{n}}
 $$
 
+where $z_{\alpha / 2}$ comes from the inverse CDF.
 
 ### Question
 
-Simulate a set of 5 draws from a $N(1,1)$ distribution and, assuming the standard deviation is known, check if the $95\%$ CI contains the true mean.
+Simulate a set of 5 draws from a $N(1,1)$ distribution and, assuming the
+standard deviation is known, check if the $95\%$ CI contains the true mean.
 
 
 ### Question
 
-Now repeat this process 1000 times and check how many times it contains the true mean. Do you think the coverage of the CI will be correct?
+Now repeat this process 1000 times and check how many times it contains the true
+mean. Do you think the coverage of the CI will be correct?
 
 
 ### Question
@@ -107,7 +130,7 @@ There is an election to choose between candidate _A_ and candidate _B_. To win t
 
 ### Question
 
-Would we reject the null if $n=100$ and $m=70$? 
+Would we reject the null if $n=100$ and $m=70$?
 
 
 ### Question
