@@ -67,6 +67,12 @@ The summation is then:
 
 $\mathbb{E}(X) = \sum_{i=1}^{\infty}i*\frac{5}{6}^{i-1}*\frac{1}{6} = 1*\frac{5}{6}^{0}*\frac{1}{6} + 2*\frac{5}{6}^{1}*\frac{1}{6} + 3*\frac{5}{6}^{2}*\frac{1}{6} ... $
 
+Recall that a geometric series is a series such that each term of the summation is equal to the previous term times some ratio $r$,
+
+$a + ar + ar^2 + ar^3...$
+
+and the sum of an infinite geometric series is $\frac{a}{1-r}$.
+
 We can observe that this is a sum of several geometric series with $r=\frac{5}{6}$:
 
 $\frac{5}{6}^{0}*\frac{1}{6} + 2*\frac{5}{6}^{1}*\frac{1}{6} + 3*\frac{5}{6}^{2}*\frac{1}{6}... = $
@@ -99,6 +105,27 @@ Therefore, $\mathbb{E}(X) = 6$
 ### Monte Carlo Approach
 
 ```python
+def random_die():
+    return stats.randint(1,7).rvs(1)
+
+def random_rolls_until_six():
+    count = 0
+    while True:
+        count += 1
+        if random_die() == 6:
+            return count 
+
+counts = np.array([random_rolls_until_six() for _ in range(1000)])
+        
+plt.hist(counts, bins=np.max(counts))
+plt.show()
+
+print(f'Empirical mean: {np.mean(counts)}')
+```
+
+```python
+# faster code but harder to read
+
 all_rolls = stats.randint(1,7).rvs(10000)
 
 i = 0
@@ -110,7 +137,8 @@ for j in all_rolls:
         i = 0
 
 counts = np.array(counts)
-        
+
+       
 plt.hist(counts, bins=np.max(counts))
 plt.show()
 
