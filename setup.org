@@ -127,3 +127,10 @@ checking!
 
 *Note:* It does not appear that the vanilla pandoc method generates sensible
  Ipython notebooks.
+
+There is a script =./resources/check-questions-text.py= that looks at the lines
+in a file (the plain text question files) and reports if there are any lines
+that might correspond to answers having snuck in. We should probably run this
+prior to committing code each time to make sure the notebooks are in decent
+shape. In the future, this could also be a way to do other automated checks on
+the notebooks.
