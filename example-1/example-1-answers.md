@@ -105,6 +105,10 @@ Therefore, $\mathbb{E}(X) = 6$
 ### Monte Carlo Approach
 
 ```python
+
+```
+
+```python
 def random_die():
     return stats.randint(1,7).rvs(1)
 
