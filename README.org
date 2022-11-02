@@ -18,6 +18,7 @@ to pull down changes from the main branch each week for the tutorial.
   basic python skills (primarily plotting with matplotlib).
 - [[https://github.com/aezarebski/aas-extended-examples/tree/main/example-1][Example 1]] reviews the central limit theorem and looks at confidence intervals
   and hypothesis tests.
+- [[https://github.com/aezarebski/aas-extended-examples/tree/main/example-2][Example 2]] reviews simple linear regression.
 - The [[https://github.com/aezarebski/aas-extended-examples/blob/main/setup.org][setup]] page gives some instructions for setting up the software and
   notebooks.
 
