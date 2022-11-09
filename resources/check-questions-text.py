@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 import re
 
 answer_regex = re.compile("^#+ answer", re.IGNORECASE)
@@ -16,7 +16,7 @@ def check_file(filepath):
 
 def main():
     offending_files = [
-        "./example-{n}/example-{n}-questions.md".format(n=n) for n in range(3)
+        "./example-{n}/example-{n}-questions.md".format(n=n) for n in range(4)
     ]
     checks = [(check_file(fp), fp) for fp in offending_files]
     print("\n")
