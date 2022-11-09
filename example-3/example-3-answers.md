@@ -74,7 +74,8 @@ col_names = df.columns.to_list()
 numeric_cols = col_names[0:7]
 ```
 
-A heatmap of the correlations between the variables in the data is a good way to get a feel for the data.
+A heatmap of the correlations between the variables in the data is a good way to
+get a feel for the data.
 
 ```python
 correlation_heatmap(df[numeric_cols])
@@ -89,17 +90,23 @@ plt.show()
 
 ### Question
 
-What do you notice about `cylinders`, `displacement`, `horsepower` and `weight`? How do they relate to `mpg`?
+What do you notice about `cylinders`, `displacement`, `horsepower` and `weight`?
+How do they relate to `mpg`?
 
 
 ### Answer
 
-These variables are all highly correlated with each other and decreasing MPG; given what we know about cars this also makes sense from a mechanical perspective. They have a non-linear relationship with `mpg`.
+These variables are all highly correlated with each other and decreasing MPG;
+given what we know about cars this also makes sense from a mechanical
+perspective. They have a non-linear relationship with `mpg`.
 
 
 ### Question
 
-Fit an ordinary linear regression for the MPG using all of the variables (excluding the name of the car). Print a summary of the fitted model. Comment on the results, how has the MPG changed over time? Save the fitted model as `fit_1`, note the `1`, we are going to improve on this below.
+Fit an ordinary linear regression for the MPG using all of the variables
+(excluding the name of the car). Print a summary of the fitted model. Comment on
+the results, how has the MPG changed over time? Save the fitted model as
+`fit_1`, note the `1`, we are going to improve on this below.
 
 ### Answer
 
@@ -139,18 +146,22 @@ What does this model tell us about fuel efficiency across the years?
 
 ### Answer
 
-**Keeping the attributes of a car constant**, each year, new cars get about `0.8` more miles per gallon **on average**. Note that the types of cars produced change over time, there is a trend for newer cars to be lighter, however this model fit still suggests there are improvements in efficiency beyond this.
+**Keeping the attributes of a car constant**, each year, new cars get about
+`0.8` more miles per gallon **on average**. Note that the types of cars produced
+change over time, there is a trend for newer cars to be lighter, however this
+model fit still suggests there are improvements in efficiency beyond this.
 
 
 ### Question
 
-Apply some transforms to reduce non-linearities in the relationship between the predictors and the response.
+Apply some transforms to reduce non-linearity in the relationship between the
+predictors and the response.
 
-<!-- #region tags=[] -->
 ### Answer
 
-Looking at the scatter plots, we can see that the `displacement`, `horsepower` and `weight` all appear to have a non-linear relationship. To adjust for this we can log-transform these variables.
-<!-- #endregion -->
+Looking at the scatter plots, we can see that the `displacement`, `horsepower`
+and `weight` all appear to have a non-linear relationship. To adjust for this we
+can log-transform these variables.
 
 ```python
 plt.figure()
@@ -158,7 +169,7 @@ pd.plotting.scatter_matrix(df[['mpg',
  'displacement',
  'horsepower',
  'weight',
- 'acceleration',                         
+ 'acceleration',
  'year']], alpha = 0.4)
 plt.show()
 ```
@@ -180,12 +191,14 @@ plt.show()
 
 ### Question
 
-Re-fit the model (as `fit_2`) with the transformed variables and comment on what has changed.
+Re-fit the model (as `fit_2`) with the transformed variables and comment on what
+has changed.
 
 
 ### Answer
 
-The log transformation of the variables has improved the fit. There is still some strong collinearity though.
+The log transformation of the variables has improved the fit. There is still
+some strong col-linearity though.
 
 ```python
 form_2 = 'mpg ~ cylinders + ln_displacement + ln_horsepower + ln_weight + acceleration + year + origin'
@@ -200,12 +213,14 @@ plt.show()
 
 ### Question
 
-Remove the `ln_displacement` variable in a new model `fit_3`. Comment on how the model has changed.
+Remove the `ln_displacement` variable in a new model `fit_3`. Comment on how the
+model has changed.
 
 
 ### Answer
 
-Removing `ln_displacement` has produced a more parsimonious model without reducing the model fit.
+Removing `ln_displacement` has produced a more parsimonious model without
+reducing the model fit.
 
 ```python
 form_3 = 'mpg ~ cylinders + ln_horsepower + ln_weight + acceleration + year + origin'
@@ -215,8 +230,9 @@ fit_3.summary()
 
 ### Question
 
-In a new model, `fit_4`, include an interaction term between the origin of the cars and their year or release. What does this tell you about car manufactoring in the considered regions?
-
+In a new model, `fit_4`, include an interaction term between the origin of the
+cars and their year or release. What does this tell you about car manufacturing
+in the considered regions?
 
 ### Answer
 
