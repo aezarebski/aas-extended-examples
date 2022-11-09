@@ -1,0 +1,16 @@
+#+title: Additional Resources
+
+In addition to the [[https://socialsciences.mcmaster.ca/jfox/Books/Applied-Regression-3E/index.html][course text book]] the I recommend the book, [[https://python.swaroopch.com/][A Byte of Python]]
+for those relatively new to programming. For an overview of the packages we will
+be using in this course see =example-0= and for help getting started look at =setup.org=.
+
+* TODO Data
+
+Some good places to find datasets are given below:
+
+- World Bank
+- Our World in Data
+- UCI machine learning repository
+- Office of National Statistics
+- Harvard Dataverse
+- Oxford internet survey

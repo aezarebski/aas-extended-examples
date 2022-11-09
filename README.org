@@ -15,15 +15,12 @@ to pull down changes from the main branch each week for the tutorial.
 * Contents
 
 - [[https://github.com/aezarebski/aas-extended-examples/tree/main/example-0][Example 0]] contains an overview of the software packages we will be using and
-  basic python skills (primarily plotting with matplotlib).
+  basic python skills (primarily plotting with =matplotlib=).
 - [[https://github.com/aezarebski/aas-extended-examples/tree/main/example-1][Example 1]] reviews the central limit theorem and looks at confidence intervals
   and hypothesis tests.
 - [[https://github.com/aezarebski/aas-extended-examples/tree/main/example-2][Example 2]] reviews simple linear regression.
+- [[https://github.com/aezarebski/aas-extended-examples/tree/main/example-3][Example 3]] reviews multiple linear regression.
 - The [[https://github.com/aezarebski/aas-extended-examples/blob/main/setup.org][setup]] page gives some instructions for setting up the software and
   notebooks.
-
-* Additional Resources
-
-In addition to the [[https://socialsciences.mcmaster.ca/jfox/Books/Applied-Regression-3E/index.html][course text book]] the I recommend the book, [[https://python.swaroopch.com/][A Byte of Python]]
-for those relatively new to programming. For an overview of the packages we will
-be using in this course see =example-0= and for help getting started look at =setup.org=.
+- The [[https://github.com/aezarebski/aas-extended-examples/blob/main/additional-resources.org][additional resources]] page gives some pointers to additional resources
+  including a list of good places to find datasets.
