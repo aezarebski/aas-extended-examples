@@ -33,5 +33,6 @@ Some of these may be helpful for inspiration
 
 Some of these may be helpful for mechanical corrections
 
+- [[https://www.tablesgenerator.com/][Tables Generator]] is an amazing free tool to generate tables for a range of documents: HTML, LaTeX and Markdown.
 - [[https://app.grammarly.com/][Grammarly]]
 - [[https://ludwig.guru/][ludwig]]
