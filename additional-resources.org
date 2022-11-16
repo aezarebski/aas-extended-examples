@@ -14,3 +14,24 @@ Some good places to find datasets are given below:
 - Office of National Statistics
 - Harvard Dataverse
 - Oxford internet survey
+
+* Writing up
+
+Here are some resources that might be helpful to you while writing up your
+assignments for this subject.
+
+** Articles
+
+Some of these may be helpful for inspiration
+
+- [[https://statmodeling.stat.columbia.edu/2009/07/30/advice_on_writi/][Advice on writing research articles]] from Andrew Gelman is something you should definitely read.
+- [[https://doi.org/10.1136/bmj.318.7193.1224][The case for structuring the discussion of scientific papers]] suggests a decent structure to write your discussion around.
+- [[https://en.wikipedia.org/wiki/Politics_and_the_English_Language][Politics and the English Language]] by George Orwell is great, in particular the six rules given within.
+- [[http://paulgraham.com/simply.html][Write Simply]] by Paul Graham
+
+** Tools
+
+Some of these may be helpful for mechanical corrections
+
+- [[https://app.grammarly.com/][Grammarly]]
+- [[https://ludwig.guru/][ludwig]]
