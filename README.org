@@ -20,6 +20,7 @@ to pull down changes from the main branch each week for the tutorial.
   and hypothesis tests.
 - [[https://github.com/aezarebski/aas-extended-examples/tree/main/example-2][Example 2]] reviews simple linear regression.
 - [[https://github.com/aezarebski/aas-extended-examples/tree/main/example-3][Example 3]] reviews multiple linear regression.
+- [[https://github.com/aezarebski/aas-extended-examples/tree/main/example-4][Example 4]] reviews hypothesis tests for contingency tables.
 - The [[https://github.com/aezarebski/aas-extended-examples/blob/main/setup.org][setup]] page gives some instructions for setting up the software and
   notebooks.
 - The [[https://github.com/aezarebski/aas-extended-examples/blob/main/additional-resources.org][additional resources]] page gives some pointers to additional resources

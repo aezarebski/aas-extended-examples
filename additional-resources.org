@@ -29,6 +29,10 @@ Some of these may be helpful for inspiration
 - [[https://en.wikipedia.org/wiki/Politics_and_the_English_Language][Politics and the English Language]] by George Orwell is great, in particular the six rules given within.
 - [[http://paulgraham.com/simply.html][Write Simply]] by Paul Graham
 
+** LaTeX
+
+- If you want to use LaTeX, the [[https://www.overleaf.com/learn][Overleaf documentation]] can be a very good resource.
+
 ** Tools
 
 Some of these may be helpful for mechanical corrections
