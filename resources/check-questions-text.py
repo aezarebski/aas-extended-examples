@@ -16,7 +16,7 @@ def check_file(filepath):
 
 def main():
     offending_files = [
-        "./example-{n}/example-{n}-questions.md".format(n=n) for n in range(4)
+        "./example-{n}/example-{n}-questions.md".format(n=n) for n in range(5)
     ]
     checks = [(check_file(fp), fp) for fp in offending_files]
     print("\n")
