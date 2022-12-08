@@ -8,10 +8,6 @@ notebooks: =example-<n>-questions.ipynb= and =example-<n>-answers.ipynb=. The
 before looking at the answers as this is the best way to check that you really
 understand them.
 
-*Please note*: we are in the process of revising the tutorial notebooks on a
-weekly basis based on the lectures and previous sessions. As such, you will need
-to pull down changes from the main branch each week for the tutorial.
-
 * Contents
 
 ** Notebooks
@@ -24,6 +20,7 @@ to pull down changes from the main branch each week for the tutorial.
 - [[https://github.com/aezarebski/aas-extended-examples/tree/main/example-3][Example 3]] reviews multiple linear regression.
 - [[https://github.com/aezarebski/aas-extended-examples/tree/main/example-4][Example 4]] reviews hypothesis tests for contingency tables.
 - [[https://github.com/aezarebski/aas-extended-examples/tree/main/example-5][Example 5]] reviews logisic regression.
+- [[https://github.com/aezarebski/aas-extended-examples/tree/main/example-6][Example 6]] reviews mult-level models.
 
 ** Miscellaneous
 
